@@ -4,8 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Orcamento(
+data class BudgetEntity(
     @PrimaryKey
     val id: Int = 1,
-    val orcamento:String?
+    val budget:String?
 )

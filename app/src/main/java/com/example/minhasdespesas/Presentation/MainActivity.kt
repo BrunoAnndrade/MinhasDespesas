@@ -7,15 +7,15 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.despesasdescomplicadas.Presentation.DespesaViewModel
-import com.example.despesasdescomplicadas.Presentation.DespesasScreen
+import com.example.despesasdescomplicadas.Presentation.ExpenseViewModel
+import com.example.despesasdescomplicadas.Presentation.ExpensesScreen
 
 import com.example.minhasdespesas.ui.theme.MinhasDespesasTheme
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: DespesaViewModel by viewModels {
-        DespesaViewModel.getVMFactory(application)
+    private val viewModel: ExpenseViewModel by viewModels {
+        ExpenseViewModel.getVMFactory(application)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,9 +23,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             MinhasDespesasTheme{
 
-                val state by viewModel.despesaState.collectAsState()
+                val state by viewModel.expensesState.collectAsState()
 
-                DespesasScreen(state = state, onEvent = viewModel::onEvent)
+                ExpensesScreen(state = state, onEvent = viewModel::onEvent)
 
 
             }

@@ -11,22 +11,22 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.despesasdescomplicadas.DespesaEvent
-import com.example.despesasdescomplicadas.DespesaState
+import com.example.despesasdescomplicadas.ExpenseEvent
+import com.example.despesasdescomplicadas.ExpenseState
 
 @Composable
 fun MoneyDialog(
-    state: DespesaState,
-    onEvent: (DespesaEvent) -> Unit,
+    state: ExpenseState,
+    onEvent: (ExpenseEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = { onEvent(DespesaEvent.HideDialog) },
+        onDismissRequest = { onEvent(ExpenseEvent.HideDialog) },
         confirmButton = {
             Button(
                 onClick = {
-                    onEvent(DespesaEvent.SaveMoney)
+                    onEvent(ExpenseEvent.SaveMoney)
 
                 }
             ) {
@@ -40,8 +40,8 @@ fun MoneyDialog(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TextField(
-                    value = state.dinheiro,
-                    onValueChange = {onEvent(DespesaEvent.SetMoney(it))
+                    value = state.myMoney,
+                    onValueChange = {onEvent(ExpenseEvent.SetMoney(it))
                     },
                     placeholder = { Text(text = "Dinheiro") }
                 )

@@ -10,22 +10,22 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.despesasdescomplicadas.DespesaEvent
-import com.example.despesasdescomplicadas.DespesaState
+import com.example.despesasdescomplicadas.ExpenseEvent
+import com.example.despesasdescomplicadas.ExpenseState
 
 @Composable
-fun DespesaDialog(
-    state: DespesaState,
-    onEvent: (DespesaEvent) -> Unit,
+fun ExpenseDialog(
+    state: ExpenseState,
+    onEvent: (ExpenseEvent) -> Unit,
     modifier: Modifier = Modifier
 ) {
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = { onEvent(DespesaEvent.HideDialog) },
+        onDismissRequest = { onEvent(ExpenseEvent.HideDialog) },
         confirmButton = {
             Button(
                 onClick = {
-                    onEvent(DespesaEvent.SaveDespesa)
+                    onEvent(ExpenseEvent.SaveExpense)
 
                 }
             ) {
@@ -40,17 +40,17 @@ fun DespesaDialog(
             ) {
                 TextField(
                     value = state.title,
-                    onValueChange = { onEvent(DespesaEvent.SetName(it)) },
+                    onValueChange = { onEvent(ExpenseEvent.SetName(it)) },
                     placeholder = { Text(text = "título") }
                 )
                 TextField(
-                    value = state.valor,
-                    onValueChange = { onEvent(DespesaEvent.SetValor(it)) },
+                    value = state.expenseValue,
+                    onValueChange = { onEvent(ExpenseEvent.SetValor(it)) },
                     placeholder = { Text(text = "valor") }
                 )
                 TextField(
                     value = state.category,
-                    onValueChange = { onEvent(DespesaEvent.SetCategory(it)) },
+                    onValueChange = { onEvent(ExpenseEvent.SetCategory(it)) },
                     placeholder = { Text(text = "categoria") }
                 )
 

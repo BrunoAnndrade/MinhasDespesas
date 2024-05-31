@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.example.despesasdescomplicadas.Data.AppDataBase
 
-class DespesasApplication : Application() {
+class ExpensesApplication : Application() {
 
     private lateinit var dataBase: AppDataBase
     override fun onCreate() {
@@ -12,7 +12,7 @@ class DespesasApplication : Application() {
 
         dataBase = Room.databaseBuilder(
             applicationContext,
-            AppDataBase::class.java, "Despesas-DataBase"
+            AppDataBase::class.java, "Expense-DataBase"
         ).build()
     }
 

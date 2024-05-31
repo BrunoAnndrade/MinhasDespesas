@@ -30,7 +30,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -47,10 +46,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.despesasdescomplicadas.DespesaEvent
-import com.example.despesasdescomplicadas.DespesaState
+import com.example.despesasdescomplicadas.ExpenseEvent
+import com.example.despesasdescomplicadas.ExpenseState
 
 import com.example.despesasdescomplicadas.SortType
 import com.example.minhasdespesas.R
@@ -58,26 +56,25 @@ import com.example.minhasdespesas.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DespesasScreen(
-    state: DespesaState,
-    onEvent: (DespesaEvent) -> Unit
+fun ExpensesScreen(
+    state: ExpenseState,
+    onEvent: (ExpenseEvent) -> Unit
 
 
 ) {
 
-    val viewModel: DespesaViewModel = viewModel()
+    val viewModel: ExpenseViewModel = viewModel()
 
-    val despesasState = viewModel.myOrcamento?.collectAsState()?.value ?: 0.0
+    val expensesState = viewModel.myBudget?.collectAsState()?.value ?: 0.0
 
     Scaffold(
         topBar = {
             TopAppBar(
-
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = Color.Black
                 ), title = {
                     Text(
-                        text = "DESPESAS DESCOMPLICADAS",
+                        text = "Minhas Despesas",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = Color.White,
@@ -86,7 +83,7 @@ fun DespesasScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                onEvent(DespesaEvent.DespesaShowDialog)
+                onEvent(ExpenseEvent.ExpenseShowDialog)
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -133,7 +130,7 @@ fun DespesasScreen(
 
                     )
                     Text(
-                        text = "R$ $despesasState "
+                        text = "R$ $expensesState "
                             ?: "0",
                         style = TextStyle.Default.copy(
                             fontSize = 18.sp,
@@ -148,7 +145,7 @@ fun DespesasScreen(
 
 
                     Button(
-                        onClick = { onEvent(DespesaEvent.MoneyShowDialog) },
+                        onClick = { onEvent(ExpenseEvent.MoneyShowDialog) },
                         modifier = Modifier
                             .align(Alignment.CenterVertically),
                         colors = ButtonDefaults.buttonColors(
@@ -176,8 +173,8 @@ fun DespesasScreen(
 
 
 
-                if (state.isAddingDespesa) {
-                    DespesaDialog(state = state, onEvent = onEvent)
+                if (state.isAddingExpense) {
+                    ExpenseDialog(state = state, onEvent = onEvent)
                 }
 
                 LazyColumn(
@@ -196,7 +193,7 @@ fun DespesasScreen(
                                 Row(
                                     modifier = Modifier
                                         .clickable {
-                                            onEvent(DespesaEvent.SortDespesas(sortType))
+                                            onEvent(ExpenseEvent.SortExpenses(sortType))
                                         },
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
@@ -204,7 +201,7 @@ fun DespesasScreen(
                                     RadioButton(
                                         selected = state.sortType == sortType,
                                         onClick = {
-                                            onEvent(DespesaEvent.SortDespesas(sortType))
+                                            onEvent(ExpenseEvent.SortExpenses(sortType))
                                         }
                                     )
                                     Text(text = sortType.name)
@@ -216,7 +213,7 @@ fun DespesasScreen(
                         }
                     }
 
-                    items(state.despesas) { despesa ->
+                    items(state.expensesList) { despesa ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -230,13 +227,13 @@ fun DespesasScreen(
                                     fontSize = 20.sp
                                 )
                                 Text(
-                                    text = "${despesa.valor}",
+                                    text = despesa.expenseValue,
                                     fontSize = 12.sp
                                 )
                             }
 
                             IconButton(
-                                onClick = { onEvent(DespesaEvent.DeleteDespesa(despesa)) }
+                                onClick = { onEvent(ExpenseEvent.DeleteExpenses(despesa)) }
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Delete,
