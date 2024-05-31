@@ -1,4 +1,4 @@
-package com.example.despesasdescomplicadas.Data
+package com.example.minhasdespesas.Data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

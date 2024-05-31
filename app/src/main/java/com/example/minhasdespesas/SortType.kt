@@ -1,4 +1,4 @@
-package com.example.despesasdescomplicadas
+package com.example.minhasdespesas
 
 enum class SortType {
     TITLE,
