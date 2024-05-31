@@ -1,15 +1,15 @@
-package com.example.despesasdescomplicadas
+package com.example.minhasdespesas
 
-import com.example.despesasdescomplicadas.Data.ExpenseEntity
+import com.example.minhasdespesas.Data.ExpenseEntity
 
 sealed interface ExpenseEvent {
 
     data object SaveExpense : ExpenseEvent
-    data object SaveMoney:ExpenseEvent
+    data object SaveMoney: ExpenseEvent
     data class SetName(val name: String) : ExpenseEvent
     data class SetValor(val value: String) : ExpenseEvent
     data class SetCategory(val category: String) : ExpenseEvent
-    data class SetMoney(val money: String):ExpenseEvent
+    data class SetMoney(val money: String): ExpenseEvent
     data object ExpenseShowDialog : ExpenseEvent
     data object MoneyShowDialog : ExpenseEvent
     data object HideDialog : ExpenseEvent

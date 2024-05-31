@@ -1,4 +1,4 @@
-package com.example.despesasdescomplicadas.Presentation
+package com.example.minhasdespesas.Presentation
 
 
 import androidx.compose.foundation.Image
@@ -47,10 +47,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.despesasdescomplicadas.ExpenseEvent
-import com.example.despesasdescomplicadas.ExpenseState
+import com.example.minhasdespesas.ExpenseEvent
+import com.example.minhasdespesas.ExpenseState
 
-import com.example.despesasdescomplicadas.SortType
+import com.example.minhasdespesas.SortType
 import com.example.minhasdespesas.R
 
 

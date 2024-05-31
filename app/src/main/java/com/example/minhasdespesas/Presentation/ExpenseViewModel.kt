@@ -1,16 +1,16 @@
-package com.example.despesasdescomplicadas.Presentation
+package com.example.minhasdespesas.Presentation
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.despesasdescomplicadas.Data.ExpenseEntity
-import com.example.despesasdescomplicadas.Data.ExpenseDao
-import com.example.despesasdescomplicadas.Data.BudgetEntity
-import com.example.despesasdescomplicadas.ExpenseEvent
-import com.example.despesasdescomplicadas.ExpenseState
-import com.example.despesasdescomplicadas.ExpensesApplication
-import com.example.despesasdescomplicadas.SortType
+import com.example.minhasdespesas.Data.ExpenseEntity
+import com.example.minhasdespesas.Data.ExpenseDao
+import com.example.minhasdespesas.Data.BudgetEntity
+import com.example.minhasdespesas.ExpenseEvent
+import com.example.minhasdespesas.ExpenseState
+import com.example.minhasdespesas.ExpensesApplication
+import com.example.minhasdespesas.SortType
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -32,8 +32,8 @@ class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            expenseDao.getBudgetFlow().collect { orcamentoValue ->
-                _myBudget.value = orcamentoValue
+            expenseDao.getBudgetFlow().collect { expenseValue ->
+                _myBudget.value = expenseValue
 
             }
         }

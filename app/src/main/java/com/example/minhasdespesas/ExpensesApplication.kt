@@ -1,8 +1,8 @@
-package com.example.despesasdescomplicadas
+package com.example.minhasdespesas
 
 import android.app.Application
 import androidx.room.Room
-import com.example.despesasdescomplicadas.Data.AppDataBase
+import com.example.minhasdespesas.Data.AppDataBase
 
 class ExpensesApplication : Application() {
 

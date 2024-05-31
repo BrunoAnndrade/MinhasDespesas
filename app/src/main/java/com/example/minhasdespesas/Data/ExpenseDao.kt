@@ -1,4 +1,4 @@
-package com.example.despesasdescomplicadas.Data
+package com.example.minhasdespesas.Data
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -37,5 +37,5 @@ interface ExpenseDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBudget(budgetEntity: BudgetEntity)
     @Update
-    suspend fun updateBudget(budgetEntity:BudgetEntity)
+    suspend fun updateBudget(budgetEntity: BudgetEntity)
 }

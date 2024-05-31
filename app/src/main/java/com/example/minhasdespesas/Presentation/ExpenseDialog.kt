@@ -1,4 +1,4 @@
-package com.example.despesasdescomplicadas.Presentation
+package com.example.minhasdespesas.Presentation
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -10,8 +10,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.despesasdescomplicadas.ExpenseEvent
-import com.example.despesasdescomplicadas.ExpenseState
+import com.example.minhasdespesas.ExpenseEvent
+import com.example.minhasdespesas.ExpenseState
 
 @Composable
 fun ExpenseDialog(
