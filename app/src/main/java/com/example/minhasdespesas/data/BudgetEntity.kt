@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.Data
+package com.example.minhasdespesas.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -7,5 +7,5 @@ import androidx.room.PrimaryKey
 data class BudgetEntity(
     @PrimaryKey
     val id: Int = 1,
-    val budget:String?
+    val budget:String = "0"
 )

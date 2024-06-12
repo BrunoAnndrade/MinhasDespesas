@@ -1,6 +1,6 @@
-package com.example.minhasdespesas
+package com.example.minhasdespesas.presentation
 
-import com.example.minhasdespesas.Data.ExpenseEntity
+import com.example.minhasdespesas.data.ExpenseEntity
 
 
 data class ExpenseState(

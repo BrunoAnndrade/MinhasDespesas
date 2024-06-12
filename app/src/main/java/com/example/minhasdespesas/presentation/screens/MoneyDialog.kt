@@ -1,4 +1,5 @@
-package com.example.minhasdespesas.Presentation
+package com.example.minhasdespesas.presentation.screens
+
 
 
 import androidx.compose.foundation.layout.Arrangement
@@ -10,11 +11,11 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.minhasdespesas.ExpenseEvent
-import com.example.minhasdespesas.ExpenseState
+import com.example.minhasdespesas.presentation.ExpenseEvent
+import com.example.minhasdespesas.presentation.ExpenseState
 
 @Composable
-fun ExpenseDialog(
+fun MoneyDialog(
     state: ExpenseState,
     onEvent: (ExpenseEvent) -> Unit,
     modifier: Modifier = Modifier
@@ -25,33 +26,24 @@ fun ExpenseDialog(
         confirmButton = {
             Button(
                 onClick = {
-                    onEvent(ExpenseEvent.SaveExpense)
+                    onEvent(ExpenseEvent.SaveMoney)
 
                 }
             ) {
-                Text(text = "Salvar Despesa")
+                Text(text = "Salvar dinheiro")
 
             }
         },
-        title = { Text(text = "ADICIONE DESPESA") },
+        title = { Text(text = "ADICIONE UM VALOR") },
         text = {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 TextField(
-                    value = state.title,
-                    onValueChange = { onEvent(ExpenseEvent.SetName(it)) },
-                    placeholder = { Text(text = "título") }
-                )
-                TextField(
-                    value = state.expenseValue,
-                    onValueChange = { onEvent(ExpenseEvent.SetValor(it)) },
-                    placeholder = { Text(text = "valor") }
-                )
-                TextField(
-                    value = state.category,
-                    onValueChange = { onEvent(ExpenseEvent.SetCategory(it)) },
-                    placeholder = { Text(text = "categoria") }
+                    value = state.myMoney,
+                    onValueChange = {onEvent(ExpenseEvent.SetMoney(it))
+                    },
+                    placeholder = { Text(text = "Dinheiro") }
                 )
 
             }

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -44,6 +45,7 @@ android {
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            excludes += "META-INF/gradle/incremental.annotation.processors"
         }
     }
 }
@@ -51,7 +53,6 @@ android {
 dependencies {
 
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -59,8 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-
-    //room
+    //Room
     implementation (libs.androidx.room.runtime)
     implementation (libs.androidx.room.ktx)
     implementation (libs.androidx.room.guava)
@@ -68,12 +68,16 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     ksp (libs.androidx.room.compiler)
 
-
-
+    // LifeCycle
     implementation (libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.runtime.compose)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
-
+    //Hilt
+    implementation (libs.hilt.android)
+    implementation (libs.androidx.hilt.navigation.compose)
+    implementation (libs.hilt.compiler)
+    ksp(libs.hilt.android.compiler)
 
 
     testImplementation(libs.junit)

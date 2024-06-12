@@ -1,16 +1,11 @@
-package com.example.minhasdespesas.Presentation
+package com.example.minhasdespesas.presentation
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.example.minhasdespesas.Data.ExpenseEntity
-import com.example.minhasdespesas.Data.ExpenseDao
-import com.example.minhasdespesas.Data.BudgetEntity
-import com.example.minhasdespesas.ExpenseEvent
-import com.example.minhasdespesas.ExpenseState
-import com.example.minhasdespesas.ExpensesApplication
-import com.example.minhasdespesas.SortType
+import com.example.minhasdespesas.data.ExpenseEntity
+import com.example.minhasdespesas.data.BudgetEntity
+import com.example.minhasdespesas.data.repository.DataBaseRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -22,8 +17,12 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
+@HiltViewModel
+class ExpenseViewModel @Inject constructor(
+    private val dataBaseRepository: DataBaseRepository
+) : ViewModel() {
 
     private val _sortType = MutableStateFlow(SortType.TITLE)
 
@@ -32,22 +31,20 @@ class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            expenseDao.getBudgetFlow().collect { expenseValue ->
+            dataBaseRepository.getBudgetFlow().collect { expenseValue ->
                 _myBudget.value = expenseValue
-
             }
         }
     }
-
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val _expenses = _sortType
         .flatMapLatest { sortType ->
 
             when (sortType) {
-                SortType.TITLE -> this.expenseDao.getAllExpenseByName()
-                SortType.VALUE -> this.expenseDao.getAllExpenseByValue()
-                SortType.CATEGORY -> this.expenseDao.getAllExpenseByCategory()
+                SortType.TITLE -> this.dataBaseRepository.getAllExpenseByName()
+                SortType.VALUE -> this.dataBaseRepository.getAllExpenseByValue()
+                SortType.CATEGORY -> this.dataBaseRepository.getAllExpenseByCategory()
             }
 
             // Use stateIn to create state Flow with data with the data resulting from the mapping
@@ -70,31 +67,27 @@ class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
 
 
     fun onEvent(event: ExpenseEvent) {
-        val myMoney = expensesState.value.myMoney.toDoubleOrNull() ?: 0.0
+
 
         when (event) {
             is ExpenseEvent.DeleteExpenses -> {
 
                 viewModelScope.launch {
 
-                    val expenseById = expenseDao.getExpenseById(event.expenseEntity.id)
+                    val expenseById = dataBaseRepository.getExpenseById(event.expenseEntity.id)
 
                     if (expenseById != null){
-                        expenseDao.deleteExpense(expenseById)
+                        dataBaseRepository.deleteExpenseById(expenseById.id)
 
-                        // Update the orcamento
-                        val budgetFlow = expenseDao.getBudgetFlow()
+                        // Calculate Budge value
+                        val budgetFlow = dataBaseRepository.getBudgetFlow()
                         val budgetString = budgetFlow.firstOrNull()?.toString()
                         val budgetDouble = budgetString?.toDoubleOrNull() ?: 0.0
-                        val expenseValue = expenseById.expenseValue.toDoubleOrNull() ?: 0.0
-
-                        // Calculate the new budget
-                        val newBudget = budgetDouble + expenseValue
-
-                        // Update the budget in the database
+                        val expenseByIdValue = expenseById.expenseValue.toDoubleOrNull() ?: 0.0
+                        val newBudget = budgetDouble + expenseByIdValue
                         val newBudgetObj = BudgetEntity(budget = newBudget.toString())
-                        expenseDao.updateBudget(newBudgetObj)
 
+                        dataBaseRepository.updateBudget(newBudgetObj)
                     }
                 }
             }
@@ -129,23 +122,18 @@ class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
                 )
 
                 viewModelScope.launch {
-                    expenseDao.upsertExpense(expenseEntity)
+                    dataBaseRepository.upsertExpense(expenseEntity)
 
-                    val budgetFlow = expenseDao.getBudgetFlow()
-                    val budgetString = budgetFlow.firstOrNull()?.toString()
-
-                    // Convert String to double
+                    // Calculate budget value
+                    val budgetFlow = dataBaseRepository.getBudgetFlow()
+                    val budgetString = budgetFlow.firstOrNull().toString()
                     val expenseValueDouble = expenseEntity.expenseValue.toDoubleOrNull() ?: 0.0
-                    val budgetDouble = budgetString?.toDoubleOrNull() ?: 0.0
-
-                    // Calculate the new budget
+                    val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
                     val newBudget = budgetDouble - expenseValueDouble
-
-                    // Create a new Orçamento object with the updated value
                     val newBudgetObj = BudgetEntity(budget = newBudget.toString())
 
-                    // Update the budget in the database
-                    expenseDao.updateBudget(newBudgetObj)
+                    dataBaseRepository.insertBudget(newBudgetObj)
+                    dataBaseRepository.updateBudget(newBudgetObj)
                 }
 
                 _expensesState.update {
@@ -163,17 +151,14 @@ class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
 
                 viewModelScope.launch {
 
-                    val budgetFlow = expenseDao.getBudgetFlow()
+                    // Calculate Budget Value
+                    val myMoney = expensesState.value.myMoney.toDoubleOrNull() ?: 0.0
+                    val budgetFlow = dataBaseRepository.getBudgetFlow()
                     val budgetDouble = budgetFlow.firstOrNull()?.toDoubleOrNull() ?: 0.0
-
-                    //calculate new budget
                     val newBudget = budgetDouble + myMoney
-
-                    // create a new Orcamento objet with the updated value
                     val newBudgetObj = BudgetEntity(id = 1, budget = newBudget.toString())
 
-                    //update budget into database
-                    expenseDao.insertBudget(newBudgetObj)
+                    dataBaseRepository.insertBudget(newBudgetObj)
 
                     _expensesState.update {
                         it.copy(isAddingMoney = false, myMoney = "")
@@ -206,16 +191,5 @@ class ExpenseViewModel(private val expenseDao: ExpenseDao) : ViewModel() {
             else -> {}
         }
     }
-    companion object {
-        fun getVMFactory(application: Application): ViewModelProvider.Factory {
-            val dataBaseInstance = (application as ExpensesApplication).getAppDataBase()
-            val dao = dataBaseInstance.expenseDao()
-            val factory = object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ExpenseViewModel(dao) as T
-                }
-            }
-            return factory
-        }
-    }
+
 }

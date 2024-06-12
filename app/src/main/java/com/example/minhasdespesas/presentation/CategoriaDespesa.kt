@@ -1,4 +1,4 @@
-package com.example.minhasdespesas
+package com.example.minhasdespesas.presentation
 
 enum class CategoriaDespesa {
     COMIDA,
