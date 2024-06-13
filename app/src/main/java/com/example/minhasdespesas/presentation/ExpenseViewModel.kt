@@ -46,12 +46,6 @@ class ExpenseViewModel @Inject constructor(
                 SortType.VALUE -> this.dataBaseRepository.getAllExpenseByValue()
                 SortType.CATEGORY -> this.dataBaseRepository.getAllExpenseByCategory()
             }
-
-            // Use stateIn to create state Flow with data with the data resulting from the mapping
-            // operation (flatMapLatest).
-            // ViewModelScope because when flow is canceled appropriately when the ViewModel is deactivated.
-            // SharingStarted specifies that stream collection should begin when an observer is subscribed
-            // to the stream and end when all observers are unsubscribed.
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), emptyList())
 
     private val _expensesState = MutableStateFlow(ExpenseState())
@@ -68,7 +62,6 @@ class ExpenseViewModel @Inject constructor(
 
     fun onEvent(event: ExpenseEvent) {
 
-
         when (event) {
             is ExpenseEvent.DeleteExpenses -> {
 
@@ -76,7 +69,7 @@ class ExpenseViewModel @Inject constructor(
 
                     val expenseById = dataBaseRepository.getExpenseById(event.expenseEntity.id)
 
-                    if (expenseById != null){
+                    if (expenseById != null) {
                         dataBaseRepository.deleteExpenseById(expenseById.id)
 
                         // Calculate Budge value
@@ -112,6 +105,7 @@ class ExpenseViewModel @Inject constructor(
                 val category = expensesState.value.category
 
                 if (title.isBlank() || expenseValue.isBlank() || category.isBlank()) {
+
                     return
                 }
 
@@ -187,6 +181,7 @@ class ExpenseViewModel @Inject constructor(
                     it.copy(myMoney = event.money)
                 }
             }
+
 
             else -> {}
         }

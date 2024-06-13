@@ -15,4 +15,5 @@ sealed interface ExpenseEvent {
     data object HideDialog : ExpenseEvent
     data class SortExpenses(val sortType: SortType) : ExpenseEvent
     data class DeleteExpenses(val expenseEntity: ExpenseEntity) : ExpenseEvent
+
 }

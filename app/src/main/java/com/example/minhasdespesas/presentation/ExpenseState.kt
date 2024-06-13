@@ -11,5 +11,5 @@ data class ExpenseState(
     val myMoney:String = "",
     val isAddingExpense: Boolean = false,
     val isAddingMoney:Boolean = false,
-    val sortType: SortType = SortType.TITLE
+    val sortType: SortType = SortType.TITLE,
 )
