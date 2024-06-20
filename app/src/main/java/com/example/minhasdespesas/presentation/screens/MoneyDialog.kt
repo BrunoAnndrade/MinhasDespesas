@@ -9,8 +9,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.minhasdespesas.presentation.CategoryViewModel
 import com.example.minhasdespesas.presentation.ExpenseEvent
 import com.example.minhasdespesas.presentation.ExpenseState
 
@@ -18,8 +22,11 @@ import com.example.minhasdespesas.presentation.ExpenseState
 fun MoneyDialog(
     state: ExpenseState,
     onEvent: (ExpenseEvent) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+
 ) {
+
+
     AlertDialog(
         modifier = modifier,
         onDismissRequest = { onEvent(ExpenseEvent.HideDialog) },
@@ -45,6 +52,8 @@ fun MoneyDialog(
                     },
                     placeholder = { Text(text = "Dinheiro") }
                 )
+
+
 
             }
         },

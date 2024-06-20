@@ -35,8 +35,9 @@ fun CategoryScreen(
     ) {
         Row {
             LazyRow{
-                items(categories){
-                    Text(text = it.name)
+                items(categories){ category ->
+
+                    Text(text = category.name)
                 }
 
             }

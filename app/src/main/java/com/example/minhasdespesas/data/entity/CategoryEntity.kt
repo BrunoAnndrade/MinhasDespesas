@@ -1,13 +1,14 @@
-package com.example.minhasdespesas.data
+package com.example.minhasdespesas.data.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity
+@Entity(tableName = "categories",)
 data class CategoryEntity(
     @PrimaryKey
     val name:String,
     val isSelected:Boolean,
-    val color:Int
+
 )

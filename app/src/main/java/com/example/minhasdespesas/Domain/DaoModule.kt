@@ -17,6 +17,11 @@ object DaoModule {
     @Provides
     @Singleton
     fun provideExpenseDao(appDataBase: AppDataBase) = appDataBase.expenseDao()
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(appDataBase: AppDataBase) = appDataBase.categoryDao()
+
     @Provides
     @Singleton
     fun provideBudgetDao(appDataBase: AppDataBase) = appDataBase.budgetDao()

@@ -47,7 +47,6 @@ import com.example.minhasdespesas.presentation.ExpenseState
 import com.example.minhasdespesas.presentation.ExpenseViewModel
 import com.example.minhasdespesas.presentation.SortType
 import com.example.minhasdespesas.R
-import com.example.minhasdespesas.data.ExpenseEntity
 
 
 @OptIn(ExperimentalMaterial3Api::class)

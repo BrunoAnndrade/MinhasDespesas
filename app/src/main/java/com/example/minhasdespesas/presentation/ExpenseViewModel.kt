@@ -2,8 +2,9 @@ package com.example.minhasdespesas.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.minhasdespesas.data.ExpenseEntity
-import com.example.minhasdespesas.data.BudgetEntity
+import com.example.minhasdespesas.data.entity.ExpenseEntity
+import com.example.minhasdespesas.data.entity.BudgetEntity
+import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.repository.DataBaseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -70,6 +71,7 @@ class ExpenseViewModel @Inject constructor(
                     val expenseById = dataBaseRepository.getExpenseById(event.expenseEntity.id)
 
                     if (expenseById != null) {
+
                         dataBaseRepository.deleteExpenseById(expenseById.id)
 
                         // Calculate Budge value
@@ -114,9 +116,16 @@ class ExpenseViewModel @Inject constructor(
                     expenseValue = expenseValue,
                     category = category
                 )
+                val categoryEntity = CategoryEntity(
+                    name  = category,
+                    isSelected = false,
+
+                )
 
                 viewModelScope.launch {
+                    dataBaseRepository.insertCategory(categoryEntity)
                     dataBaseRepository.upsertExpense(expenseEntity)
+
 
                     // Calculate budget value
                     val budgetFlow = dataBaseRepository.getBudgetFlow()
@@ -135,10 +144,26 @@ class ExpenseViewModel @Inject constructor(
                         isAddingExpense = false,
                         title = "",
                         expenseValue = "",
-                        category = "",
+
 
                         )
                 }
+            }
+
+            ExpenseEvent.SaveCategory -> {
+                val category = expensesState.value.category
+
+                val categoryEntity = CategoryEntity(
+                    name  = category,
+                    isSelected = false,
+                )
+
+                viewModelScope.launch {
+                    dataBaseRepository.insertCategory(categoryEntity)
+
+                }
+
+
             }
 
             ExpenseEvent.SaveMoney -> {
@@ -161,6 +186,7 @@ class ExpenseViewModel @Inject constructor(
             }
 
             is ExpenseEvent.SetCategory -> {
+
                 _expensesState.update { it.copy(category = event.category) }
             }
 

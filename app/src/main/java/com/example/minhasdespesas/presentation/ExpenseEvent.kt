@@ -1,11 +1,13 @@
 package com.example.minhasdespesas.presentation
 
-import com.example.minhasdespesas.data.ExpenseEntity
+import com.example.minhasdespesas.data.entity.CategoryEntity
+import com.example.minhasdespesas.data.entity.ExpenseEntity
 
 sealed interface ExpenseEvent {
 
     data object SaveExpense : ExpenseEvent
     data object SaveMoney: ExpenseEvent
+    data object SaveCategory:ExpenseEvent
     data class SetName(val name: String) : ExpenseEvent
     data class SetValor(val value: String) : ExpenseEvent
     data class SetCategory(val category: String) : ExpenseEvent
