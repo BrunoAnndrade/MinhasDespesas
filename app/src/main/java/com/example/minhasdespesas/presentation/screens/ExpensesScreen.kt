@@ -153,6 +153,8 @@ fun ExpensesScreen(
                     }
                 }
 
+                CategoryScreen()
+
                 if (state.isAddingExpense) {
                     ExpenseDialog(state = state, onEvent = onEvent)
                 }

@@ -1,6 +1,7 @@
 package com.example.minhasdespesas.presentation.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,7 +35,9 @@ fun CategoryScreen(
             .background(Color.White)
     ) {
         Row {
-            LazyRow{
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ){
                 items(categories){ category ->
 
                     Text(text = category.name)
