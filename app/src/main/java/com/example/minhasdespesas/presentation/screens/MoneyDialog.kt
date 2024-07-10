@@ -1,7 +1,6 @@
 package com.example.minhasdespesas.presentation.screens
 
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
@@ -15,25 +14,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.minhasdespesas.presentation.CategoryViewModel
-import com.example.minhasdespesas.presentation.ExpenseEvent
-import com.example.minhasdespesas.presentation.ExpenseState
 
 @Composable
 fun MoneyDialog(
-    state: ExpenseState,
-    onEvent: (ExpenseEvent) -> Unit,
+
     modifier: Modifier = Modifier,
 
-) {
+    ) {
 
 
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = { onEvent(ExpenseEvent.HideDialog) },
+        onDismissRequest = {  },
         confirmButton = {
             Button(
                 onClick = {
-                    onEvent(ExpenseEvent.SaveMoney)
+
 
                 }
             ) {
@@ -46,12 +42,6 @@ fun MoneyDialog(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                TextField(
-                    value = state.myMoney,
-                    onValueChange = {onEvent(ExpenseEvent.SetMoney(it))
-                    },
-                    placeholder = { Text(text = "Dinheiro") }
-                )
 
 
 

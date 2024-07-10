@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ExpenseDao {
 
-    @Query("SELECT * FROM expenses ORDER BY title ASC")
-    fun getAllExpenseByName(): Flow<List<ExpenseEntity>>
+    @Query("SELECT * FROM expenses ORDER BY id ASC")
+    fun getAllExpenses(): Flow<List<ExpenseEntity>>
     @Query("SELECT * FROM expenses ORDER BY category ASC")
     fun getAllExpenseByCategory(): Flow<List<ExpenseEntity>>
     @Query("SELECT * FROM expenses WHERE id = :expenseId")

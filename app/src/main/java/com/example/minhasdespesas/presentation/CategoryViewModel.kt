@@ -4,7 +4,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.CategoryEntity
-import com.example.minhasdespesas.data.repository.DataBaseRepository
+import com.example.minhasdespesas.data.repository.CategoryRepository
+import com.example.minhasdespesas.data.repository.ExpenseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val repository: DataBaseRepository
+    private val categoryRepository: CategoryRepository
 ) : ViewModel() {
 
     val availableColors = listOf(
@@ -33,13 +34,20 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            repository.getAllCategory().collect { categories ->
-                _categories.value = categories
-            }
         }
     }
 
 
+    fun saveCategory(category: CategoryEntity) {
 
+        viewModelScope.launch {
+            categoryRepository.insertCategory(category)
+            categoryRepository.updateCategory(category)
+        }
+    }
 
 }
+
+
+
+

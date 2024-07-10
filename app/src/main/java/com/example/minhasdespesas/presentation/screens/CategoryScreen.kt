@@ -37,8 +37,8 @@ fun CategoryScreen(
         Row {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ){
-                items(categories){ category ->
+            ) {
+                items(categories) { category ->
 
                     Text(text = category.name)
                 }
@@ -53,7 +53,7 @@ fun CategoryScreen(
 
 @Preview
 @Composable
-fun CategoryScreenPreview(){
+fun CategoryScreenPreview() {
     CategoryScreen()
 
 }

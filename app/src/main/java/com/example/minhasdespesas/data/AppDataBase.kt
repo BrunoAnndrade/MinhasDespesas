@@ -10,7 +10,6 @@ import com.example.minhasdespesas.data.entity.ExpenseEntity
 abstract class AppDataBase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun budgetDao(): BudgetDao
-
     abstract fun categoryDao():CategoryDao
 
 }

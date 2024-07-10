@@ -15,16 +15,19 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel:ExpenseViewModel by viewModels()
+    private val viewModel: ExpenseViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+       
+
         setContent {
-            MinhasDespesasTheme{
+            MinhasDespesasTheme {
 
-                val state by viewModel.expensesState.collectAsState()
 
-                ExpensesScreen(state = state, onEvent = viewModel::onEvent)
+
+                ExpensesScreen()
 
 
             }
