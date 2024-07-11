@@ -49,7 +49,13 @@ fun ExpensesScreen(
 ) {
 
     val budget by budgetViewModel.myBudget.collectAsState()
-    var showDialog by remember { mutableStateOf(false) }
+    var showSheet by remember { mutableStateOf(false) }
+
+    if (showSheet) {
+        ExpenseBottomSheet() {
+            showSheet = false
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -68,7 +74,7 @@ fun ExpensesScreen(
         floatingActionButton = {
             FloatingActionButton(onClick = {
 
-                showDialog = true
+                showSheet = true
 
 
             }) {
