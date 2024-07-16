@@ -52,9 +52,7 @@ fun ExpensesScreen(
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
-        ExpenseBottomSheet() {
-            showSheet = false
-        }
+        ExpenseBottomSheet(onDismiss = { showSheet = false})
     }
 
     Scaffold(

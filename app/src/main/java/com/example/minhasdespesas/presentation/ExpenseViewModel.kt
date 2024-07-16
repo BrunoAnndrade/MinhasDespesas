@@ -41,21 +41,32 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    private fun deleteExpense(expense: ExpenseEntity) {
+    fun deleteExpense(expense: ExpenseEntity) {
         viewModelScope.launch {
             expenseRepository.deleteExpense(expense)
         }
     }
 
-    private fun saveExpense(expense: ExpenseEntity, category: CategoryEntity) {
+    fun saveExpense(expenseName: String,expenseValue: String,  category: String) {
 
         viewModelScope.launch {
-            categoryRepository.insertCategory(category)
-            expenseRepository.upsertExpense(expense)
+
+            val categories = CategoryEntity(
+                name = category,
+                isSelected = false
+            )
+
+            val expenses = ExpenseEntity(
+                title = expenseName,
+                expenseValue = expenseValue,
+                category = category
+            )
+            categoryRepository.insertCategory(categories)
+            expenseRepository.upsertExpense(expenses)
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expense.expenseValue.toDoubleOrNull() ?: 0.0
+            val expenseValueDouble = expenses.expenseValue.toDoubleOrNull() ?: 0.0
             val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble - expenseValueDouble
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())
@@ -65,7 +76,7 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    private fun deleteExpense(expenseId: Int, expense: ExpenseEntity){
+    fun deleteExpense(expenseId: Int, expense: ExpenseEntity){
         viewModelScope.launch {
             expenseRepository.deleteExpenseById(expenseId)
 
