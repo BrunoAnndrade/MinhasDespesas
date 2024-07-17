@@ -39,7 +39,6 @@ fun CategoryScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 items(categories) { category ->
-
                     Text(text = category.name)
                 }
             }
