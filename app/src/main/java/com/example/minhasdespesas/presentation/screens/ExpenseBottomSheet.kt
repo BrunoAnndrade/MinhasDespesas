@@ -44,8 +44,8 @@ fun ExpenseBottomSheet(
     onDismiss: () -> Unit,
     categoryViewModel: CategoryViewModel = viewModel(),
     expenseViewModel: ExpenseViewModel = viewModel(),
-
     ) {
+
     val categories by categoryViewModel.categories.collectAsState()
     val expenses by expenseViewModel.expensesList.collectAsState()
 
@@ -121,12 +121,4 @@ fun ExpenseBottomSheet(
             Spacer(modifier = Modifier.weight(1f))
         }
     }
-
-
-}
-
-@Preview(showBackground = true)
-@Composable
-fun BottomSheetExamplePreview() {
-    ExpenseBottomSheet( onDismiss = {})
 }
