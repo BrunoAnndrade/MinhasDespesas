@@ -42,13 +42,9 @@ fun CategoryScreen(
 
                     Text(text = category.name)
                 }
-
             }
         }
-
     }
-
-
 }
 
 @Preview
