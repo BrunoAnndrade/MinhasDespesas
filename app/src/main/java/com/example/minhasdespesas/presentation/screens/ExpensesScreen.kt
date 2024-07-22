@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.minhasdespesas.presentation.ExpenseViewModel
 import com.example.minhasdespesas.R
 import com.example.minhasdespesas.presentation.BudgetViewModel
@@ -45,126 +46,83 @@ import com.example.minhasdespesas.presentation.BudgetViewModel
 @Composable
 fun ExpensesScreen(
     expenseViewModel: ExpenseViewModel = viewModel(),
-    budgetViewModel: BudgetViewModel = viewModel()
+    budgetViewModel: BudgetViewModel = viewModel(),
+    navController: NavHostController
 ) {
 
     val budget by budgetViewModel.myBudget.collectAsState()
-    var showSheet by remember { mutableStateOf(false) }
 
-    if (showSheet) {
-        ExpenseBottomSheet(onDismiss = { showSheet = false})
-    }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Color.Black
-                ), title = {
-                    Text(
-                        text = "Minhas Despesas",
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = Color.White,
-                    )
-                })
-        },
-        floatingActionButton = {
-            FloatingActionButton(onClick = {
+    ) {
 
-                showSheet = true
-
-
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add despesa"
-                )
-            }
-
-        },
-        modifier = Modifier.padding(16.dp)
-
-    ) { innerPadding ->
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-        ) {
+                .padding(10.dp),
 
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(10.dp),
-
-                ) {
+            ) {
 
 
-                Row {
+            Row {
 
-                    Text(
-                        text = "Orçamento ",
-                        style = TextStyle.Default.copy(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
-                        modifier = Modifier.align(Alignment.CenterVertically)
+                Text(
+                    text = "Orçamento ",
+                    style = TextStyle.Default.copy(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                    ),
+                    modifier = Modifier.align(Alignment.CenterVertically)
 
 
-                    )
-                    Text(
-                        text = "R$ $budget ",
-                        style = TextStyle.Default.copy(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black
-                        ),
+                )
+                Text(
+                    text = "R$ $budget ",
+                    style = TextStyle.Default.copy(
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    ),
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .align(Alignment.CenterVertically)
+                )
+
+
+                Button(
+                    onClick = { },
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Transparent
+
+                    ),
+
+                    ) {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_money4),
+                        contentDescription = "money",
                         modifier = Modifier
-                            .padding(horizontal = 20.dp)
-                            .align(Alignment.CenterVertically)
+                            .size(50.dp)
+                            .align(Alignment.Top),
                     )
-
-
-                    Button(
-                        onClick = { },
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Transparent
-
-                        ),
-
-                        ) {
-
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_money4),
-                            contentDescription = "money",
-                            modifier = Modifier
-                                .size(50.dp)
-                                .align(Alignment.Top),
-                        )
-                    }
                 }
-
-                ExpenseListCard()
-
             }
+
+            ExpenseListCard(expenseViewModel,navController)
 
         }
 
-
-
-
     }
-}
 
-@Preview
-@Composable
-fun PreviewExpensesScreen() {
-
-    ExpensesScreen()
 
 }
+
+
+
 
 
 

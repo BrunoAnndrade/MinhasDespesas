@@ -44,10 +44,12 @@ fun ExpenseBottomSheet(
     onDismiss: () -> Unit,
     categoryViewModel: CategoryViewModel = viewModel(),
     expenseViewModel: ExpenseViewModel = viewModel(),
-    ) {
+) {
 
     val categories by categoryViewModel.categories.collectAsState()
     val expenses by expenseViewModel.expensesList.collectAsState()
+
+    var showSheet by remember { mutableStateOf(true) }
 
     val modalBottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
@@ -57,10 +59,11 @@ fun ExpenseBottomSheet(
     var newCategoryName by rememberSaveable { mutableStateOf("") }
     var selectedCategory by rememberSaveable { mutableStateOf<CategoryEntity?>(null) }
 
-    val isDropdownExpanded by remember { mutableStateOf(false) }
+
+
 
     ModalBottomSheet(
-        onDismissRequest = { onDismiss() },
+        onDismissRequest = onDismiss,
         sheetState = modalBottomSheetState,
         dragHandle = { BottomSheetDefaults.DragHandle() },
     ) {
@@ -108,7 +111,7 @@ fun ExpenseBottomSheet(
 
             Button(
                 onClick = {
-                    expenseViewModel.saveExpense(expenseName,expenseValue,newCategoryName)
+                    expenseViewModel.saveExpense(expenseName, expenseValue, newCategoryName)
 
                 },
                 modifier = Modifier
