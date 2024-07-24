@@ -15,7 +15,7 @@ class ExpenseRepository @Inject constructor(
     fun getAllExpenses(): Flow<List<ExpenseEntity>> = expenseDao.getAllExpenses()
     suspend fun getAllExpenseByValue(): Flow<List<ExpenseEntity>> = expenseDao.getAllExpenseByValue()
     fun getAllExpenseByCategory(): Flow<List<ExpenseEntity>> = expenseDao.getAllExpenseByCategory()
-    suspend fun getExpenseById(expenseId:Int): ExpenseEntity? = expenseDao.getExpenseById(expenseId)
+    suspend fun getExpenseById(expenseId:String): ExpenseEntity? = expenseDao.getExpenseById(expenseId)
     suspend fun upsertExpense(expense: ExpenseEntity) = expenseDao.upsertExpense(expense)
     suspend fun deleteExpense(expense: ExpenseEntity) = expenseDao.deleteExpense(expense)
     suspend fun deleteExpenseById(expenseId: Int):Int = expenseDao.deleteExpenseById(expenseId)

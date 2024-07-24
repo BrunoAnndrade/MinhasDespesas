@@ -27,8 +27,6 @@ class ExpenseViewModel @Inject constructor(
     val expensesList: StateFlow<List<ExpenseEntity>> = _expensesList.asStateFlow()
 
     init {
-
-
         viewModelScope.launch {
             getAllExpenses()
         }

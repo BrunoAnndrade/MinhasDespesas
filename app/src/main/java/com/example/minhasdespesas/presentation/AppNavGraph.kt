@@ -20,20 +20,13 @@ import com.example.minhasdespesas.presentation.screens.ExpensesScreen
 @Composable
 fun AppNavGraph() {
 
-    val expenseViewModel: ExpenseViewModel = hiltViewModel()
-    val budgetViewModel: BudgetViewModel = hiltViewModel()
-    val categoryViewModel: CategoryViewModel = hiltViewModel()
-
-    val expenses by expenseViewModel.expensesList.collectAsState()
-    var showSheet by remember { mutableStateOf(false) }
-
     val navController = rememberNavController()
+    val showSheet by remember { mutableStateOf(false) }
 
     NavHost(
         navController = navController,
         startDestination = "expenseList"
     ) {
-
         composable(
             route = "expenseDetail" + "/{expenseId}",
             arguments = listOf(navArgument("expenseId") { type = NavType.StringType })
@@ -45,9 +38,5 @@ fun AppNavGraph() {
         composable(route = "expenseList") {
             ExpensesScreen(navController)
         }
-
-
-
     }
-
 }

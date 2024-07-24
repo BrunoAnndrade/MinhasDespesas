@@ -36,6 +36,7 @@ import androidx.navigation.NavHostController
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 import com.example.minhasdespesas.presentation.CategoryViewModel
+import com.example.minhasdespesas.presentation.ExpenseDetailViewmodel
 import com.example.minhasdespesas.presentation.ExpenseViewModel
 import kotlinx.coroutines.launch
 
@@ -47,84 +48,86 @@ fun ExpenseBottomSheet(
     navHostController: NavHostController,
     categoryViewModel: CategoryViewModel = viewModel(),
     expenseViewModel: ExpenseViewModel = viewModel(),
+    expenseDetailViewModel: ExpenseDetailViewmodel = viewModel()
 ) {
-
     val categories by categoryViewModel.categories.collectAsState()
-    val expenses by expenseViewModel.expensesList.collectAsState()
-
-    var showSheet by remember { mutableStateOf(true) }
-
     val modalBottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
-
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseValue by rememberSaveable { mutableStateOf("") }
     var newCategoryName by rememberSaveable { mutableStateOf("") }
     var selectedCategory by rememberSaveable { mutableStateOf<CategoryEntity?>(null) }
 
+    val expenseDetail by expenseDetailViewModel.expensesUi.collectAsState()
+
+    expenseDetailViewModel.fetchExpenseDetail(expenseId)
 
 
+    expenseDetail?.let {
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = modalBottomSheetState,
-        dragHandle = { BottomSheetDefaults.DragHandle() },
-    ) {
-        Column {
+        ModalBottomSheet(
+            onDismissRequest = onDismiss,
+            sheetState = modalBottomSheetState,
+            dragHandle = { BottomSheetDefaults.DragHandle() },
+        ) {
+            Column {
 
-            TextField(
-                value = expenseName,
-                onValueChange = { expenseName = it },
-                label = { Text("Expense Name") },
-                modifier = Modifier.fillMaxWidth(),
-            )
+                TextField(
+                    value = it.title,
+                    onValueChange = { expenseName = it },
+                    label = { Text("Expense Name") },
+                    modifier = Modifier.fillMaxWidth(),
+                )
 
-            TextField(
-                value = expenseValue,
-                onValueChange = { expenseValue = it },
-                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                label = { Text("Expense Value") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            TextField(
-                value = newCategoryName,
-                onValueChange = { newCategoryName = it },
-                label = { Text("Category Value") },
-                modifier = Modifier.fillMaxWidth()
-            )
+                TextField(
+                    value = it.expenseValue,
+                    onValueChange = { expenseValue = it },
+                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                    label = { Text("Expense Value") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+                TextField(
+                    value = it.category,
+                    onValueChange = { newCategoryName = it },
+                    label = { Text("Category Value") },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-            DropdownMenu(
-                expanded = false,
-                onDismissRequest = { },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                categories.forEach { category ->
-                    DropdownMenuItem(
-                        onClick = {
+                DropdownMenu(
+                    expanded = false,
+                    onDismissRequest = { },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    categories.forEach { category ->
+                        DropdownMenuItem(
+                            onClick = {
 
-                            coroutineScope.launch {
-                                selectedCategory = category
-                                modalBottomSheetState.hide()
-                            }
-                        },
-                        text = { Text(category.name) }
-                    )
+                                coroutineScope.launch {
+                                    selectedCategory = category
+                                    modalBottomSheetState.hide()
+                                }
+                            },
+                            text = { Text(category.name) }
+                        )
+                    }
                 }
+
+                Button(
+                    onClick = {
+                        expenseViewModel.saveExpense(expenseName, expenseValue, newCategoryName)
+
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 16.dp)
+                ) {
+                    Text(text = "salvar")
+                }
+
+
             }
-
-            Button(
-                onClick = {
-                    expenseViewModel.saveExpense(expenseName, expenseValue, newCategoryName)
-
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp)
-            ) {
-                Text(text = "salvar")
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
         }
     }
+
+
 }

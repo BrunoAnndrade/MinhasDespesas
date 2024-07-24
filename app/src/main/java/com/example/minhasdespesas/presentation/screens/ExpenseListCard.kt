@@ -34,21 +34,13 @@ import kotlinx.coroutines.launch
 fun ExpenseListCard (
     viewModel: ExpenseViewModel = viewModel(),
     navController: NavHostController
-
 ){
     val expenseList by viewModel.expensesList.collectAsState()
 
-
-    Box(
-
-    ){
-
+    Box{
         LazyColumn(
-
             verticalArrangement = Arrangement.spacedBy(16.dp)
-
         ) {
-
             items(expenseList){ expense ->
                 Row(
                     modifier = Modifier
@@ -56,7 +48,7 @@ fun ExpenseListCard (
                         .clickable {
                             val expenseId = expense.id.toString()
                             Log.d("BRUNO", "Navigating to ExpenseDetail with id: $expenseId")
-                            navController.navigate(NavScreens.ExpenseDetail.createRoute(expenseId))
+                            navController.navigate("expenseDetail/${expenseId}")
                         }
                         .padding(16.dp)
                 ) {

@@ -47,17 +47,15 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         setContent {
             MinhasDespesasTheme {
 
-
                 var showSheet by remember { mutableStateOf(false) }
                 val navController = rememberNavController()
+                val expenseId by remember { mutableStateOf("") }
 
                 if (showSheet) {
-                    ExpenseBottomSheet(onDismiss = { showSheet = false })
+                    ExpenseBottomSheet(onDismiss = { showSheet = false }, navHostController = navController, expenseId = expenseId)
                 }
 
                 Scaffold(
@@ -76,10 +74,7 @@ class MainActivity : ComponentActivity() {
                     },
                     floatingActionButton = {
                         FloatingActionButton(onClick = {
-
                             showSheet = true
-
-
                         }) {
                             Icon(
                                 imageVector = Icons.Default.Add,
