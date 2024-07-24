@@ -18,12 +18,12 @@ import com.example.minhasdespesas.presentation.screens.ExpenseBottomSheet
 import com.example.minhasdespesas.presentation.screens.ExpensesScreen
 
 @Composable
-fun AppNavGraph(
-    expenseViewModel: ExpenseViewModel = hiltViewModel(),
-    budgetViewModel: BudgetViewModel = hiltViewModel(),
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
+fun AppNavGraph() {
 
-) {
+    val expenseViewModel: ExpenseViewModel = hiltViewModel()
+    val budgetViewModel: BudgetViewModel = hiltViewModel()
+    val categoryViewModel: CategoryViewModel = hiltViewModel()
+
     val expenses by expenseViewModel.expensesList.collectAsState()
     var showSheet by remember { mutableStateOf(false) }
 
@@ -31,28 +31,19 @@ fun AppNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = NavScreens.ExpenseList.route
+        startDestination = "expenseList"
     ) {
 
         composable(
-            route = NavScreens.ExpenseDetail.route,
+            route = "expenseDetail" + "/{expenseId}",
             arguments = listOf(navArgument("expenseId") { type = NavType.StringType })
         ) { backStackEntry ->
-            val expenseId = backStackEntry.arguments?.getString("expenseId")?.toIntOrNull()
-            val expenseItem = expenses.find { it.id == expenseId }
-
-            expenseItem?.let {
-                ExpenseBottomSheet(
-                    onDismiss = {showSheet = false }
-                    ,categoryViewModel,
-                    expenseViewModel
-                )
-            }
+            val expenseId = requireNotNull( backStackEntry.arguments?.getString("expenseId"))
+            ExpenseBottomSheet(expenseId = expenseId, onDismiss = { },navController)
         }
 
-
-        composable(route = NavScreens.ExpenseList.route) {
-            ExpensesScreen(expenseViewModel,budgetViewModel,navController)
+        composable(route = "expenseList") {
+            ExpensesScreen(navController)
         }
 
 

@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 import com.example.minhasdespesas.presentation.CategoryViewModel
@@ -41,7 +42,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpenseBottomSheet(
+    expenseId:String,
     onDismiss: () -> Unit,
+    navHostController: NavHostController,
     categoryViewModel: CategoryViewModel = viewModel(),
     expenseViewModel: ExpenseViewModel = viewModel(),
 ) {

@@ -45,9 +45,10 @@ import com.example.minhasdespesas.presentation.BudgetViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpensesScreen(
+    navController: NavHostController,
     expenseViewModel: ExpenseViewModel = viewModel(),
     budgetViewModel: BudgetViewModel = viewModel(),
-    navController: NavHostController
+
 ) {
 
     val budget by budgetViewModel.myBudget.collectAsState()
