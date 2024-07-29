@@ -12,36 +12,33 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.minhasdespesas.data.entity.ExpenseEntity
+import com.example.minhasdespesas.presentation.BudgetViewModel
+import com.example.minhasdespesas.presentation.CategoryViewModel
+import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
 import com.example.minhasdespesas.presentation.ExpenseViewModel
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpenseListCard (
-    viewModel: ExpenseViewModel = viewModel(),
+fun ExpenseListCard(
     navController: NavHostController
-){
-    val expenseList by viewModel.expensesList.collectAsState()
+) {
+    val expenseViewModel: ExpenseViewModel = hiltViewModel()
+    val expenseList by expenseViewModel.expensesList.collectAsState()
 
-    Box{
+    Box {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(expenseList){ expense ->
+            items(expenseList) { expense ->
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()

@@ -31,6 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.minhasdespesas.presentation.AppNavGraph
 import com.example.minhasdespesas.presentation.BudgetViewModel
 import com.example.minhasdespesas.presentation.CategoryViewModel
+import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
 import com.example.minhasdespesas.presentation.ExpenseViewModel
 
 import com.example.minhasdespesas.ui.theme.MinhasDespesasTheme
@@ -38,10 +39,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private val expenseViewModel: ExpenseViewModel by viewModels()
-    private val budgetViewModel: BudgetViewModel by viewModels()
-    private val categoryViewModel: CategoryViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,11 +49,6 @@ class MainActivity : ComponentActivity() {
 
                 var showSheet by remember { mutableStateOf(false) }
                 val navController = rememberNavController()
-                val expenseId by remember { mutableStateOf("") }
-
-                if (showSheet) {
-                    ExpenseBottomSheet(onDismiss = { showSheet = false }, navHostController = navController, expenseId = expenseId)
-                }
 
                 Scaffold(
                     topBar = {
@@ -72,16 +64,16 @@ class MainActivity : ComponentActivity() {
                                 )
                             })
                     },
+
                     floatingActionButton = {
-                        FloatingActionButton(onClick = {
-                            showSheet = true
-                        }) {
+                        FloatingActionButton(
+                            onClick = {showSheet = true}
+                        ) {
                             Icon(
                                 imageVector = Icons.Default.Add,
                                 contentDescription = "Add despesa"
                             )
                         }
-
                     },
                     modifier = Modifier.padding(16.dp)
 
@@ -92,7 +84,11 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(innerPadding)
                     ) {
-                        ExpensesScreen(navController = navController)
+                        AppNavGraph()
+
+                        if (showSheet) {
+                            ExpenseBottomSheet(navController)
+                        }
 
                     }
 

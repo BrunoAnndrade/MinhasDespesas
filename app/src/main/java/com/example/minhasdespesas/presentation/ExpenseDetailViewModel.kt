@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExpenseDetailViewmodel @Inject constructor(
+class ExpenseDetailViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository
 ):ViewModel() {
 
@@ -20,15 +20,17 @@ class ExpenseDetailViewmodel @Inject constructor(
     val expensesUi: StateFlow<ExpenseEntity?> = _expensesUi
 
 
-    fun fetchExpenseDetail(moviesId: String){
+    fun fetchExpenseDetail(moviesId: String?){
         viewModelScope.launch(Dispatchers.IO) {
-            val data = expenseRepository.getExpenseById(moviesId)
-            _expensesUi.value = data?.copy(
-                id = moviesId.toInt(),
-                title = data.title,
-                expenseValue = data.expenseValue,
-                category = data.category
-            )
+            val data = moviesId?.let { expenseRepository.getExpenseById(it) }
+            _expensesUi.value = data?.id?.let {
+                _expensesUi.value?.copy(
+                    id = data.id,
+                    title = data.title,
+                    expenseValue = data.expenseValue,
+                    category = data.category
+                )
+            }
         }
 
     }

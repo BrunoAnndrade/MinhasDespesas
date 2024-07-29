@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.minhasdespesas.presentation.CategoryViewModel
 import org.openjdk.tools.javac.jvm.Items
@@ -25,8 +26,9 @@ import org.openjdk.tools.javac.jvm.Items
 
 @Composable
 fun CategoryScreen(
-    categoryViewModel: CategoryViewModel = viewModel()
+
 ) {
+    val categoryViewModel: CategoryViewModel = hiltViewModel()
     val categories by categoryViewModel.categories.collectAsState()
 
     Box(
