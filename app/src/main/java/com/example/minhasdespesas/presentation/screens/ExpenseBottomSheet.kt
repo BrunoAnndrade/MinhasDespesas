@@ -3,6 +3,7 @@ package com.example.minhasdespesas.presentation.screens
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -16,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,58 +44,56 @@ import kotlinx.coroutines.launch
 @Composable
 fun ExpenseBottomSheet(
     navController: NavHostController,
-    expenses: ExpenseEntity? = null
+    expenses: ExpenseEntity? = null,
+    onDismiss: () -> Unit = {}
 ) {
-    var showSheet by remember { mutableStateOf(false) }
     val expenseViewModel: ExpenseViewModel = hiltViewModel()
     val modalBottomSheetState = rememberModalBottomSheetState()
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseValue by rememberSaveable { mutableStateOf("") }
     var newCategoryName by rememberSaveable { mutableStateOf("") }
 
-    expenses?.let { detail ->
+    val title = expenses?.title ?: ""
+    val value = expenses?.expenseValue ?: ""
+    val category = expenses?.category ?: ""
 
-        ModalBottomSheet(
-            onDismissRequest = { showSheet = false },
-            sheetState = modalBottomSheetState,
-            dragHandle = { BottomSheetDefaults.DragHandle() },
-
+    ModalBottomSheet(
+        onDismissRequest = {onDismiss()},
+        sheetState = modalBottomSheetState,
+        dragHandle = { BottomSheetDefaults.DragHandle() },
+    ) {
+        Column {
+            TextField(
+                value = title.ifEmpty { expenseName },
+                onValueChange = { expenseName = it },
+                label = { Text("Expense Name") },
+            )
+            TextField(
+                value = value.ifEmpty { expenseValue },
+                onValueChange = { expenseValue = it },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+                label = { Text("Expense Value") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            TextField(
+                value = category.ifEmpty { newCategoryName },
+                onValueChange = { newCategoryName = it },
+                label = { Text("Category Value") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            Button(
+                onClick = {
+                    expenseViewModel.saveExpense(expenseName, expenseValue, newCategoryName)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
             ) {
-            Column {
-                TextField(
-                    value = detail.title,
-                    onValueChange = { expenseName = it },
-                    label = { Text("Expense Name") },
-                    modifier = Modifier.fillMaxWidth(),
-                )
-
-                TextField(
-                    value = detail.expenseValue,
-                    onValueChange = { expenseValue = it },
-                    keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                    label = { Text("Expense Value") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-                TextField(
-                    value = detail.category,
-                    onValueChange = { newCategoryName = it },
-                    label = { Text("Category Value") },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-
-                Button(
-                    onClick = {
-                        expenseViewModel.saveExpense(expenseName, expenseValue, newCategoryName)
-
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 16.dp)
-                ) {
-                    Text(text = "salvar")
-                }
+                Text(text = "Salvar")
             }
         }
     }
 }
+
+
+

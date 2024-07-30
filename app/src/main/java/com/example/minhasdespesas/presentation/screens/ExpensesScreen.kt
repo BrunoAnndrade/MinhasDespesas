@@ -9,13 +9,26 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +45,7 @@ import com.example.minhasdespesas.R
 import com.example.minhasdespesas.presentation.BudgetViewModel
 import com.example.minhasdespesas.presentation.CategoryViewModel
 import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -39,70 +53,111 @@ import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
 fun ExpensesScreen(
     navController: NavHostController,
 ) {
-    val expenseViewModel:ExpenseViewModel = hiltViewModel()
-    val expenseDetailViewModel:ExpenseDetailViewModel = hiltViewModel()
+
+    var showSheet by remember { mutableStateOf(false) }
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val budgetViewModel: BudgetViewModel = hiltViewModel()
-
     val budget by budgetViewModel.myBudget.collectAsState()
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(10.dp),
-        ) {
-            Row {
-                Text(
-                    text = "Orçamento ",
-                    style = TextStyle.Default.copy(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                    ),
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
-                Text(
-                    text = "R$ $budget ",
-                    style = TextStyle.Default.copy(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    ),
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp)
-                        .align(Alignment.CenterVertically)
-                )
+    val coroutineScope = rememberCoroutineScope()
 
-                Button(
-                    onClick = { },
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent
 
-                    ),
-
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_money4),
-                        contentDescription = "money",
-                        modifier = Modifier
-                            .size(50.dp)
-                            .align(Alignment.Top),
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.mediumTopAppBarColors(
+                    containerColor = Color.Black
+                ), title = {
+                    Text(
+                        text = "Minhas Despesas",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White,
                     )
-                }
-            }
+                })
+        },
 
-            ExpenseListCard(navController)
+        floatingActionButton = {
+            FloatingActionButton(onClick = {showSheet = true}) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add despesa"
+                )
+            }
+        },
+        modifier = Modifier.padding(16.dp)
+
+    ) { innerPadding ->
+
+        if (showSheet) {
+
+            ExpenseBottomSheet(
+                navController,
+                onDismiss = {coroutineScope.launch {showSheet = false}}
+            )
 
         }
 
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(10.dp),
+                ) {
+                    Row {
+                        Text(
+                            text = "Orçamento ",
+                            style = TextStyle.Default.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                            ),
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+                        Text(
+                            text = "R$ $budget ",
+                            style = TextStyle.Default.copy(
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black
+                            ),
+                            modifier = Modifier
+                                .padding(horizontal = 20.dp)
+                                .align(Alignment.CenterVertically)
+                        )
+
+                        Button(
+                            onClick = { },
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            colors = ButtonDefaults.buttonColors(
+                                containerColor = Color.Transparent
+
+                            ),
+
+                            ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_money4),
+                                contentDescription = "money",
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .align(Alignment.Top),
+                            )
+                        }
+                    }
+                    ExpenseListCard(navController)
+                }
+            }
+        }
     }
-
-
 }
 
 

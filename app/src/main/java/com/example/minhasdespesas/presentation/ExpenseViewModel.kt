@@ -41,6 +41,12 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
+    fun insertExpense(expense: ExpenseEntity) {
+        viewModelScope.launch {
+            expenseRepository.upsertExpense(expense)
+        }
+    }
+
     fun deleteExpense(expense: ExpenseEntity) {
         viewModelScope.launch {
             expenseRepository.deleteExpense(expense)

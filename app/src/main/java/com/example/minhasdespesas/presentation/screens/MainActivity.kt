@@ -47,58 +47,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             MinhasDespesasTheme {
 
-                var showSheet by remember { mutableStateOf(false) }
-                val navController = rememberNavController()
-
-                Scaffold(
-                    topBar = {
-                        TopAppBar(
-                            colors = TopAppBarDefaults.mediumTopAppBarColors(
-                                containerColor = Color.Black
-                            ), title = {
-                                Text(
-                                    text = "Minhas Despesas",
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    color = Color.White,
-                                )
-                            })
-                    },
-
-                    floatingActionButton = {
-                        FloatingActionButton(
-                            onClick = {showSheet = true}
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Add despesa"
-                            )
-                        }
-                    },
-                    modifier = Modifier.padding(16.dp)
-
-                ) { innerPadding ->
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                    ) {
-                        AppNavGraph()
-
-                        if (showSheet) {
-                            ExpenseBottomSheet(navController)
-                        }
-
-                    }
-
-
-                }
+                AppNavGraph()
             }
-
         }
+
     }
 }
+
 
 
 
