@@ -1,5 +1,6 @@
 package com.example.minhasdespesas.presentation
 
+import androidx.compose.runtime.MutableDoubleState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.BudgetEntity
@@ -34,7 +35,7 @@ class BudgetViewModel @Inject constructor(
         }
     }
 
-    private suspend fun saveMoney(myMoney:Double){
+    suspend fun saveMoney(myMoney: Double){
 
         val budgetFlow = budgetRepository.getBudgetFlow()
         val budgetDouble = budgetFlow.firstOrNull()?.toDouble()
