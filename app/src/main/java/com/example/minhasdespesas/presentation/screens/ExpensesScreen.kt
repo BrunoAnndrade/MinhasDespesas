@@ -53,14 +53,9 @@ import kotlinx.coroutines.launch
 fun ExpensesScreen(
     navController: NavHostController,
 ) {
-
     var showSheet by remember { mutableStateOf(false) }
     val categoryViewModel: CategoryViewModel = hiltViewModel()
-    val budgetViewModel: BudgetViewModel = hiltViewModel()
-    val budget by budgetViewModel.myBudget.collectAsState()
-
     val coroutineScope = rememberCoroutineScope()
-
 
     Scaffold(
         topBar = {
@@ -90,12 +85,10 @@ fun ExpensesScreen(
     ) { innerPadding ->
 
         if (showSheet) {
-
             ExpenseBottomSheet(
                 navController,
                 onDismiss = {coroutineScope.launch {showSheet = false}}
             )
-
         }
 
         Column(
@@ -103,7 +96,6 @@ fun ExpensesScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -113,46 +105,7 @@ fun ExpensesScreen(
                         .fillMaxSize()
                         .padding(10.dp),
                 ) {
-                    Row {
-                        Text(
-                            text = "Orçamento ",
-                            style = TextStyle.Default.copy(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                            ),
-                            modifier = Modifier.align(Alignment.CenterVertically)
-                        )
-                        Text(
-                            text = "R$ $budget ",
-                            style = TextStyle.Default.copy(
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = Color.Black
-                            ),
-                            modifier = Modifier
-                                .padding(horizontal = 20.dp)
-                                .align(Alignment.CenterVertically)
-                        )
-
-                        Button(
-                            onClick = { },
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = Color.Transparent
-
-                            ),
-
-                            ) {
-                            Image(
-                                painter = painterResource(id = R.drawable.ic_money4),
-                                contentDescription = "money",
-                                modifier = Modifier
-                                    .size(50.dp)
-                                    .align(Alignment.Top),
-                            )
-                        }
-                    }
+                    BudgetScreen()
                     ExpenseListCard(navController)
                 }
             }
