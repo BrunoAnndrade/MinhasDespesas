@@ -2,13 +2,18 @@ package com.example.minhasdespesas.presentation.screens
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
@@ -31,6 +36,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -45,6 +51,8 @@ import com.example.minhasdespesas.R
 import com.example.minhasdespesas.presentation.BudgetViewModel
 import com.example.minhasdespesas.presentation.CategoryViewModel
 import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
+import com.example.minhasdespesas.ui.theme.Purple40
+import com.example.minhasdespesas.ui.theme.PurpleLight
 import kotlinx.coroutines.launch
 
 
@@ -61,8 +69,11 @@ fun ExpensesScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = Color.Black
-                ), title = {
+                    containerColor = PurpleLight
+                ),
+                modifier = Modifier
+                    .fillMaxWidth(),
+                title = {
                     Text(
                         text = "Minhas Despesas",
                         fontSize = 20.sp,
@@ -71,42 +82,49 @@ fun ExpensesScreen(
                     )
                 })
         },
-
         floatingActionButton = {
-            FloatingActionButton(onClick = {showSheet = true}) {
+            FloatingActionButton(onClick = { showSheet = true }) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add despesa"
                 )
             }
         },
-        modifier = Modifier.padding(16.dp)
-
     ) { innerPadding ->
 
         if (showSheet) {
             ExpenseBottomSheet(
                 navController,
-                onDismiss = {coroutineScope.launch {showSheet = false}}
+                onDismiss = { coroutineScope.launch { showSheet = false } }
             )
         }
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .background(PurpleLight)
         ) {
+            Row(modifier = Modifier.padding(10.dp)) {
+                BudgetScreen()
+            }
+            Spacer(modifier = Modifier.size(10.dp))
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
+                    .padding(30.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(10.dp),
                 ) {
-                    BudgetScreen()
-                    ExpenseListCard(navController)
+                    Row(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(20.dp))
+                    ) {
+                        ExpenseListCard(navController)
+                    }
                 }
             }
         }

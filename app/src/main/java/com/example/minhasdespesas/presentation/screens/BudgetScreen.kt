@@ -47,7 +47,7 @@ fun BudgetScreen(){
     Box(
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(PurpleLight)
+            .background(Color.White)
             .fillMaxWidth()
     ){
 
@@ -65,7 +65,7 @@ fun BudgetScreen(){
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.White
+                    color = Color.Black
                 ),
                 modifier = Modifier.padding(start = 20.dp)
             )
@@ -74,7 +74,7 @@ fun BudgetScreen(){
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.White
+                    color = Color.Black
                 ),
                 modifier = Modifier
                     .padding(horizontal = 20.dp)
