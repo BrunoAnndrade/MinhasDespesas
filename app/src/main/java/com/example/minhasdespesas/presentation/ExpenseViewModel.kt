@@ -53,34 +53,7 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    fun saveExpense(expenseName: String,expenseValue: String,  category: String) {
 
-        viewModelScope.launch {
-
-            val categories = CategoryEntity(
-                name = category,
-                isSelected = false
-            )
-
-            val expenses = ExpenseEntity(
-                title = expenseName,
-                expenseValue = expenseValue,
-                category = category
-            )
-            categoryRepository.insertCategory(categories)
-            expenseRepository.upsertExpense(expenses)
-
-            val budgetFlow = budgetRepository.getBudgetFlow()
-            val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expenses.expenseValue.toDoubleOrNull() ?: 0.0
-            val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
-            val newBudget = budgetDouble - expenseValueDouble
-            val newBudgetObj = BudgetEntity(budget = newBudget.toString())
-
-            budgetRepository.insertBudget(newBudgetObj)
-            budgetRepository.updateBudget(newBudgetObj)
-        }
-    }
 
     fun deleteExpense(expenseId: Int, expense: ExpenseEntity){
         viewModelScope.launch {

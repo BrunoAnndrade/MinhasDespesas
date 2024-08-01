@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation
+package com.example.minhasdespesas.presentation.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,36 +9,22 @@ import com.example.minhasdespesas.data.repository.BudgetRepository
 import com.example.minhasdespesas.data.repository.CategoryRepository
 import com.example.minhasdespesas.data.repository.ExpenseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExpenseDetailViewModel @Inject constructor(
+class BottomSheetViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository,
     private val budgetRepository: BudgetRepository,
     private val categoryRepository: CategoryRepository
 ):ViewModel() {
 
-    private val _expensesUi = MutableStateFlow<ExpenseEntity?>(null)
-    val expensesUi: StateFlow<ExpenseEntity?> = _expensesUi
-
-    fun fetchExpenseDetail(moviesId: String?){
-        viewModelScope.launch(Dispatchers.IO) {
-            val data = moviesId?.let { expenseRepository.getExpenseById(it) }
-            _expensesUi.value = data
-        }
-    }
-
-    fun editAndSaveExpense(
+    fun saveNewExpense(
         expenseName: String,
         expenseValue: String,
-        category: String,
-        id:String
-    ) {
+        category: String
+    ){
         viewModelScope.launch {
             val categories = CategoryEntity(
                 name = category,
@@ -47,9 +33,7 @@ class ExpenseDetailViewModel @Inject constructor(
             val expenses = ExpenseEntity(
                 title = expenseName,
                 expenseValue = expenseValue,
-                category = category,
-                id = id.toInt()
-
+                category = category
             )
             categoryRepository.insertCategory(categories)
             expenseRepository.upsertExpense(expenses)

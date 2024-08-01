@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 import com.example.minhasdespesas.presentation.screens.ExpenseBottomSheet
+import com.example.minhasdespesas.presentation.screens.ExpenseDetail
 import com.example.minhasdespesas.presentation.screens.ExpensesScreen
 import kotlinx.coroutines.launch
 
@@ -21,9 +22,7 @@ import kotlinx.coroutines.launch
 fun AppNavGraph() {
 
     val navController = rememberNavController()
-    var showSheet by remember { mutableStateOf(true) }
-    val expenseViewModel: ExpenseViewModel = hiltViewModel()
-    val coroutineScope = rememberCoroutineScope()
+
 
     NavHost(
         navController = navController,
@@ -34,18 +33,11 @@ fun AppNavGraph() {
             arguments = listOf(navArgument("expenseId") { type = NavType.StringType })
         ) { backStackEntry ->
             val expenseId = requireNotNull(backStackEntry.arguments?.getString("expenseId"))
-            val expenseItem =
-                expenseViewModel.expensesList.value.find { it.id.toString() == expenseId }
 
 
-
-            ExpenseBottomSheet(
-                navController,
-                expenseItem,
-                onDismiss = { navController.navigate("expenseList") }
+            ExpenseDetail(
+                expenseId = expenseId
             )
-
-
         }
 
         composable(route = "expenseList") {
