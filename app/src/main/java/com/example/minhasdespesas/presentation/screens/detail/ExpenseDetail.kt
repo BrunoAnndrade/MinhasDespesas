@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation.screens
+package com.example.minhasdespesas.presentation.screens.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
 
 
 @Composable

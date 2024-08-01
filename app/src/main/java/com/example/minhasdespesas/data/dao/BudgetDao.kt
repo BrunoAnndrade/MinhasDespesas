@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.data
+package com.example.minhasdespesas.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

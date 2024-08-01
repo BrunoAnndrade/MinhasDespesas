@@ -1,6 +1,6 @@
 package com.example.minhasdespesas.data.repository
 
-import com.example.minhasdespesas.data.CategoryDao
+import com.example.minhasdespesas.data.dao.CategoryDao
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

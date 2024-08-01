@@ -1,11 +1,10 @@
-package com.example.minhasdespesas.presentation
+package com.example.minhasdespesas.presentation.screens.category
 
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.repository.CategoryRepository
-import com.example.minhasdespesas.data.repository.ExpenseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -1,9 +1,8 @@
-package com.example.minhasdespesas.presentation
+package com.example.minhasdespesas.presentation.screens.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.BudgetEntity
-import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 import com.example.minhasdespesas.data.repository.BudgetRepository
 import com.example.minhasdespesas.data.repository.CategoryRepository

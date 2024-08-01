@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation
+package com.example.minhasdespesas.presentation.screens.detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class BottomSheetViewModel @Inject constructor(
+class ExpenseBottomSheetViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository,
     private val budgetRepository: BudgetRepository,
     private val categoryRepository: CategoryRepository

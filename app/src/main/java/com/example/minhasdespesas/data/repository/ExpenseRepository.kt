@@ -1,8 +1,7 @@
 package com.example.minhasdespesas.data.repository
 
-import com.example.minhasdespesas.data.BudgetDao
-import com.example.minhasdespesas.data.entity.BudgetEntity
-import com.example.minhasdespesas.data.ExpenseDao
+import com.example.minhasdespesas.data.dao.BudgetDao
+import com.example.minhasdespesas.data.dao.ExpenseDao
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation.screens
+package com.example.minhasdespesas.presentation.screens.detail
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,13 +22,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.minhasdespesas.presentation.BottomSheetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpenseBottomSheet(
     navController: NavHostController,
-    bottomSheetViewModel: BottomSheetViewModel = hiltViewModel(),
+    bottomSheetViewModel: ExpenseBottomSheetViewModel = hiltViewModel(),
     onDismiss: () -> Unit = {}
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState()

@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.data
+package com.example.minhasdespesas.data.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import androidx.room.Upsert
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import kotlinx.coroutines.flow.Flow
 

@@ -1,6 +1,5 @@
-package com.example.minhasdespesas.presentation
+package com.example.minhasdespesas.presentation.screens.budget
 
-import androidx.compose.runtime.MutableDoubleState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.BudgetEntity
