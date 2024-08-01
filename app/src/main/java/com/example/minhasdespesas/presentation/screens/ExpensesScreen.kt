@@ -84,10 +84,14 @@ fun ExpensesScreen(
                 })
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = { showSheet = true }) {
+            FloatingActionButton(
+                onClick = { showSheet = true },
+                containerColor = PurpleLight,
+            ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add despesa"
+                    contentDescription = "Add despesa",
+                    tint = Color.White,
                 )
             }
         },
