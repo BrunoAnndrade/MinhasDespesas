@@ -3,6 +3,8 @@ package com.example.minhasdespesas.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -69,7 +71,7 @@ fun ExpensesScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
-                    containerColor = PurpleLight
+                    containerColor = Purple40
                 ),
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -77,7 +79,6 @@ fun ExpensesScreen(
                     Text(
                         text = "Minhas Despesas",
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.ExtraBold,
                         color = Color.White,
                     )
                 })
@@ -102,22 +103,34 @@ fun ExpensesScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(PurpleLight)
+                .background(Color.White)
         ) {
-            Row(modifier = Modifier.padding(10.dp)) {
+            Row(
+                modifier = Modifier
+                    .padding(10.dp)
+            ) {
                 BudgetScreen()
+
             }
-            Spacer(modifier = Modifier.size(10.dp))
+            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(
+                modifier = Modifier
+                    .height(5.dp)
+                    .fillMaxWidth()
+                    .background(Color.LightGray)
+                ,
+            )
 
             Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(30.dp)
+                    .padding(10.dp)
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(10.dp),
+                    verticalArrangement = Arrangement.Center,
                 ) {
                     Row(
                         modifier = Modifier

@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation.screens
+package com.example.minhasdespesas.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

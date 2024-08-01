@@ -2,16 +2,22 @@ package com.example.minhasdespesas.presentation.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +44,7 @@ import com.example.minhasdespesas.ui.theme.PurpleLight
 
 
 @Composable
-fun BudgetScreen(){
+fun BudgetScreen() {
 
     val budgetViewModel: BudgetViewModel = hiltViewModel()
     val budget by budgetViewModel.myBudget.collectAsState()
@@ -48,26 +54,26 @@ fun BudgetScreen(){
         modifier = Modifier
             .clip(RoundedCornerShape(16.dp))
             .background(Color.White)
-            .fillMaxWidth()
-    ){
+            .border(2.dp, Purple40, RoundedCornerShape(16.dp))
+            .padding(15.dp)
+    ) {
 
-        if (showDialog){
-            MoneyDialog(onDismiss = {showDialog = false})
+        if (showDialog) {
+            MoneyDialog(onDismiss = { showDialog = false })
         }
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
 
-        ) {
+            ) {
             Text(
-                text = "ORÇAMENTO",
+                text = "Orçamento",
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = Color.Black
                 ),
-                modifier = Modifier.padding(start = 20.dp)
             )
             Text(
                 text = "R$ $budget ",
@@ -77,25 +83,22 @@ fun BudgetScreen(){
                     color = Color.Black
                 ),
                 modifier = Modifier
-                    .padding(horizontal = 20.dp)
-
+                    .padding(start = 10.dp, end = 10.dp)
             )
 
-            Button(
-                onClick = {showDialog = true },
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.Transparent
-                ),
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = "Add money",
+                tint = Color.White,
+                modifier = Modifier
+                    .size(20.dp)
+                    .background(Purple40, RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(10.dp))
+                    .align(Alignment.CenterVertically)
+                    .clickable { showDialog = true }
+                ,
+            )
 
-                ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_money4),
-                    contentDescription = "money",
-                    modifier = Modifier
-                        .size(50.dp)
-
-                )
-            }
         }
     }
 }

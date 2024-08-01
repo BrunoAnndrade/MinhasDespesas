@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
+import com.example.minhasdespesas.presentation.BottomSheetViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

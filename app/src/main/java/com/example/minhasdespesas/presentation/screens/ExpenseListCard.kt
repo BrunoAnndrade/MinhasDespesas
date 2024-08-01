@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -42,6 +43,7 @@ import com.example.minhasdespesas.presentation.BudgetViewModel
 import com.example.minhasdespesas.presentation.CategoryViewModel
 import com.example.minhasdespesas.presentation.ExpenseDetailViewModel
 import com.example.minhasdespesas.presentation.ExpenseViewModel
+import com.example.minhasdespesas.ui.theme.Purple40
 import com.example.minhasdespesas.ui.theme.PurpleLight
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
@@ -59,11 +61,10 @@ fun ExpenseListCard(
         modifier = Modifier
             .fillMaxWidth()
             .background(Color.White),
-        ) {
+    ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
-
-            ) {
+        ) {
             items(expenseList) { expense ->
                 Row(
                     modifier = Modifier
@@ -75,14 +76,13 @@ fun ExpenseListCard(
                         .padding(10.dp),
                     verticalAlignment = Alignment.CenterVertically
 
-                    ) {
+                ) {
                     Column(
                         modifier = Modifier
                             .weight(1f),
                         horizontalAlignment = Alignment.Start,
-                        verticalArrangement = Arrangement.Center
-                    ) {
 
+                    ) {
                         Text(
                             text = expense.title,
                             style = TextStyle.Default.copy(
@@ -90,47 +90,38 @@ fun ExpenseListCard(
                                 fontSize = 20.sp,
                             ),
                         )
-
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "Categoria:",
-                                style = TextStyle.Default.copy(
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 16.sp,
-                                ),
-                            )
-                            Text(
-                                text = " ${expense.category}",
-                                style = TextStyle.Default.copy(
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 16.sp,
-                                    color = Color.Red
-                                ),
-                            )
-                        }
-
+                        Text(
+                            text = expense.category,
+                            style = TextStyle.Default.copy(
+                                fontSize = 16.sp,
+                                color = Color.Black
+                            ),
+                        )
                     }
 
                     Column(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(end = 10.dp),
+                        ,
                         horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Center
                     ) {
                         Text(
                             text = "${expense.expenseValue},00",
                             style = TextStyle.Default.copy(
                                 fontWeight = FontWeight.ExtraBold,
+                                color = Purple40,
                                 fontSize = 20.sp,
                             ),
-
-
                         )
                     }
                 }
+                Spacer(
+                    modifier = Modifier
+                        .height(1.dp)
+                        .fillMaxWidth()
+                        .background(Color.LightGray)
+                    ,
+                )
             }
         }
     }
@@ -139,7 +130,6 @@ fun ExpenseListCard(
 @Preview(showBackground = true)
 @Composable
 fun ExpenseListCardPreview() {
-
     val navController = NavHostController(LocalContext.current)
     ExpenseListCard(navController)
 
