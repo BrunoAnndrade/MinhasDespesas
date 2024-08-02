@@ -20,9 +20,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun CategoryScreen(
-
+    categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
-    val categoryViewModel: CategoryViewModel = hiltViewModel()
     val categories by categoryViewModel.categories.collectAsState()
 
     Box(

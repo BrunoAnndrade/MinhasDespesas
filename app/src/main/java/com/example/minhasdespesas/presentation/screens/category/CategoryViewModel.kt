@@ -33,9 +33,11 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            categoryRepository.getAllCategory().collect{
+                _categories.value = it
+            }
         }
     }
-
 
     fun saveCategory(category: CategoryEntity) {
 

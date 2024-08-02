@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.minhasdespesas.presentation.screens.detail.ExpenseDetail
-import com.example.minhasdespesas.presentation.screens.ExpensesScreen
+import com.example.minhasdespesas.presentation.screens.list.ExpensesScreen
 
 @Composable
 fun AppNavGraph() {

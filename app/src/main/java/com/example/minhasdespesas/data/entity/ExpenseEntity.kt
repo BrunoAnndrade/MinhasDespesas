@@ -20,7 +20,8 @@ data class ExpenseEntity(
     val id: Int = 0,
     val title: String,
     val expenseValue: String,
-    val category: String
+    val category: String,
+
 )
 
 

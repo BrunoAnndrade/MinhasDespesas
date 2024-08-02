@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation.screens
+package com.example.minhasdespesas.presentation.screens.list
 
 
 import androidx.compose.foundation.background
@@ -37,8 +37,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import com.example.minhasdespesas.presentation.screens.budget.BudgetScreen
+import com.example.minhasdespesas.presentation.screens.category.CategoryScreen
 import com.example.minhasdespesas.presentation.screens.detail.ExpenseBottomSheet
-import com.example.minhasdespesas.presentation.screens.list.ExpenseListCard
 import com.example.minhasdespesas.ui.theme.Purple40
 import com.example.minhasdespesas.ui.theme.PurpleLight
 import kotlinx.coroutines.launch
@@ -121,6 +121,7 @@ fun ExpensesScreen(
                         .padding(10.dp),
                     verticalArrangement = Arrangement.Center,
                 ) {
+                    CategoryScreen()
                     Row(
                         modifier = Modifier
                             .clip(RoundedCornerShape(20.dp))

@@ -33,7 +33,8 @@ class ExpenseBottomSheetViewModel @Inject constructor(
             val expenses = ExpenseEntity(
                 title = expenseName,
                 expenseValue = expenseValue,
-                category = category
+                category = category,
+
             )
             categoryRepository.insertCategory(categories)
             expenseRepository.upsertExpense(expenses)
