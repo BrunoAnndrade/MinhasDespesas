@@ -118,10 +118,11 @@ fun ExpensesScreen(
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(10.dp),
-                    verticalArrangement = Arrangement.Center,
+                        .padding(start = 10.dp, end = 10.dp),
+                    verticalArrangement = Arrangement.Top,
                 ) {
                     CategoryScreen()
+                    Spacer(modifier = Modifier.height(5.dp))
                     Row(
                         modifier = Modifier
                             .clip(RoundedCornerShape(20.dp))

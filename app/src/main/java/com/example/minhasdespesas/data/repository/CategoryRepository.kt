@@ -8,10 +8,11 @@ import javax.inject.Inject
 class CategoryRepository @Inject constructor(
     private val categoryDao: CategoryDao
 ) {
-
     // Categories
-    suspend fun getAllCategory(): Flow<List<CategoryEntity>> = categoryDao.getAllCategories()
+    fun getAllCategory(): Flow<List<CategoryEntity>> = categoryDao.getAllCategories()
     suspend fun insertCategory(category: CategoryEntity)  = categoryDao.insertCategory(category)
     suspend fun updateCategory(category: CategoryEntity) = categoryDao.updateCategory(category)
+    suspend fun deleteCategory(category: CategoryEntity) = categoryDao.deleteCategory(category)
+    suspend fun getCategoryByName(name: String): CategoryEntity? = categoryDao.getCategoryByName(name)
 
 }

@@ -1,6 +1,8 @@
 package com.example.minhasdespesas.presentation.screens.category
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,6 +15,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,11 +28,13 @@ import com.example.minhasdespesas.ui.theme.Purple20
 import com.example.minhasdespesas.ui.theme.PurpleLight
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel()
 ) {
     val categories by categoryViewModel.categories.collectAsState()
+    var showDeleteDialog = remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -41,19 +47,31 @@ fun CategoryScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 reverseLayout = true
-
-
             ) {
                 items(categories) { category ->
                     Text(
                         text = category.name,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .background(Purple20, shape = RoundedCornerShape(8.dp))
                             .padding(8.dp)
-                        ,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
+                            .combinedClickable(
+                                onClick = {
+
+                                },
+                                onLongClick = {
+                                    showDeleteDialog.value = true
+                                }
+                            ),
+                        )
+
+                    if (showDeleteDialog.value){
+                        DialogDeleteCategory(
+                            onDismiss = { showDeleteDialog.value = false },
+                            category = category
+                        )
+                    }
                 }
             }
         }
