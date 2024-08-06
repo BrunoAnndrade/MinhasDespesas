@@ -56,7 +56,7 @@ fun BudgetScreen() {
             horizontalArrangement = Arrangement.Center,
         ) {
             Text(
-                text = "Orçamento",
+                text = "Saldo:",
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
@@ -64,14 +64,14 @@ fun BudgetScreen() {
                 ),
             )
             Text(
-                text = "R$ $budget ",
+                text = "$budget ",
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = Color.Black
+                    color = if (budget < "0") Color.Red else Color.Black
                 ),
                 modifier = Modifier
-                    .padding(start = 10.dp, end = 10.dp)
+                    .padding(start = 5.dp, end = 10.dp)
             )
 
             Icon(
