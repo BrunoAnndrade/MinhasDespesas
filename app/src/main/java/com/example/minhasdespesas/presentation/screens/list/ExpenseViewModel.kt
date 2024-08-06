@@ -33,7 +33,6 @@ class ExpenseViewModel @Inject constructor(
 
     private fun getAllExpenses() {
         viewModelScope.launch {
-
             expenseRepository.getAllExpenses().collect { expenses ->
                 _expensesList.value = expenses
             }
@@ -42,8 +41,14 @@ class ExpenseViewModel @Inject constructor(
 
     fun filterExpenseByCategoryName(categoryName: String) {
         viewModelScope.launch {
-            expenseRepository.getExpenseByCategoryName(categoryName).collect { expenses ->
-                _expensesList.value = expenses.filter{ it.category == categoryName }
+            if (categoryName == "All") {
+                expenseRepository.getAllExpenses().collect { expenses ->
+                    _expensesList.value = expenses
+                }
+            } else {
+                expenseRepository.getExpenseByCategoryName(categoryName).collect { expenses ->
+                    _expensesList.value = expenses.filter { it.category == categoryName }
+                }
             }
         }
     }
@@ -60,13 +65,13 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    fun deleteExpense(expenseId: Int, expense: ExpenseEntity){
+    fun deleteExpense(expenseId: Int, expense: ExpenseEntity) {
         viewModelScope.launch {
             expenseRepository.deleteExpenseById(expenseId)
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetDouble = budgetFlow.firstOrNull()?.toDouble()
-            val expenseByIdValue = expense.expenseValue.toDoubleOrNull()  ?: 0.0
+            val expenseByIdValue = expense.expenseValue.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble?.plus(expenseByIdValue)
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())
 

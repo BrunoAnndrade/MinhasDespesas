@@ -11,5 +11,4 @@ data class CategoryEntity(
     @PrimaryKey
     val name:String,
     val isSelected:Boolean,
-
 )

@@ -2,6 +2,7 @@ package com.example.minhasdespesas.presentation.screens.category
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -36,13 +37,12 @@ fun CategoryScreen(
     expenseViewModel: ExpenseViewModel = hiltViewModel()
 ) {
     val categories by categoryViewModel.categories.collectAsState()
-    var showDeleteDialog = remember { mutableStateOf(false) }
+    val showDeleteDialog = remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
             .padding(5.dp)
             .background(Color.White)
-
     ) {
         Row {
             LazyRow(
@@ -61,15 +61,14 @@ fun CategoryScreen(
                             .combinedClickable(
                                 onClick = {
                                     expenseViewModel.filterExpenseByCategoryName(category.name)
-
                                 },
                                 onLongClick = {
                                     showDeleteDialog.value = true
-                                }
+                                },
                             ),
-                        )
+                    )
 
-                    if (showDeleteDialog.value){
+                    if (showDeleteDialog.value) {
                         DialogDeleteCategory(
                             onDismiss = { showDeleteDialog.value = false },
                             category = category

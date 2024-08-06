@@ -33,14 +33,20 @@ class CategoryViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            getAllCategories()
+        }
+    }
+
+    fun getAllCategories() {
+        viewModelScope.launch {
             categoryRepository.getAllCategory().collect{
-                _categories.value = it
+                val allCategory = CategoryEntity(name = "All", isSelected = false)
+                _categories.value = it + allCategory
             }
         }
     }
 
     fun saveCategory(category: CategoryEntity) {
-
         viewModelScope.launch {
             categoryRepository.insertCategory(category)
             categoryRepository.updateCategory(category)
@@ -59,9 +65,6 @@ class CategoryViewModel @Inject constructor(
             categoryRepository.updateCategory(category)
         }
     }
-
-
-
 }
 
 

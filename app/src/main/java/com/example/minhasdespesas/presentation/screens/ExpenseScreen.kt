@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation.screens.list
+package com.example.minhasdespesas.presentation.screens
 
 
 import androidx.compose.foundation.background
@@ -39,6 +39,7 @@ import com.example.minhasdespesas.presentation.screens.category.CategoryViewMode
 import com.example.minhasdespesas.presentation.screens.budget.BudgetScreen
 import com.example.minhasdespesas.presentation.screens.category.CategoryScreen
 import com.example.minhasdespesas.presentation.screens.detail.ExpenseBottomSheet
+import com.example.minhasdespesas.presentation.screens.list.ExpenseListCard
 import com.example.minhasdespesas.ui.theme.Purple40
 import com.example.minhasdespesas.ui.theme.PurpleLight
 import kotlinx.coroutines.launch
