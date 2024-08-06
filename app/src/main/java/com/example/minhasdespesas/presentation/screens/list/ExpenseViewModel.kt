@@ -40,6 +40,14 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
+    fun filterExpenseByCategoryName(categoryName: String) {
+        viewModelScope.launch {
+            expenseRepository.getExpenseByCategoryName(categoryName).collect { expenses ->
+                _expensesList.value = expenses.filter{ it.category == categoryName }
+            }
+        }
+    }
+
     fun insertExpense(expense: ExpenseEntity) {
         viewModelScope.launch {
             expenseRepository.upsertExpense(expense)

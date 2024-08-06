@@ -13,8 +13,8 @@ interface ExpenseDao {
     @Query("SELECT * FROM expenses ORDER BY id ASC")
     fun getAllExpenses(): Flow<List<ExpenseEntity>>
 
-    @Query("SELECT * FROM expenses ORDER BY category ASC")
-    fun getAllExpenseByCategory(): Flow<List<ExpenseEntity>>
+    @Query("SELECT * FROM expenses WHERE category = :category")
+    fun getExpenseByCategoryName(category: String): Flow<List<ExpenseEntity>>
 
     @Query("SELECT * FROM expenses WHERE id = :expenseId")
     suspend fun getExpenseById(expenseId: String): ExpenseEntity?
