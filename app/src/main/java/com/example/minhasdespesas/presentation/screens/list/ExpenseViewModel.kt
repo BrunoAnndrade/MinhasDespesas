@@ -60,8 +60,6 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-
-
     fun deleteExpense(expenseId: Int, expense: ExpenseEntity){
         viewModelScope.launch {
             expenseRepository.deleteExpenseById(expenseId)

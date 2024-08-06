@@ -14,5 +14,4 @@ class CategoryRepository @Inject constructor(
     suspend fun updateCategory(category: CategoryEntity) = categoryDao.updateCategory(category)
     suspend fun deleteCategory(category: CategoryEntity) = categoryDao.deleteCategory(category)
     suspend fun getCategoryByName(name: String): CategoryEntity? = categoryDao.getCategoryByName(name)
-
 }
