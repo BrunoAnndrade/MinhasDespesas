@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class BudgetViewModel @Inject constructor(
     private val budgetRepository: BudgetRepository
-):ViewModel(){
+):ViewModel() {
 
     private val _myBudget = MutableStateFlow("")
     val myBudget: StateFlow<String> = _myBudget.asStateFlow()
@@ -28,7 +28,6 @@ class BudgetViewModel @Inject constructor(
     }
 
     private suspend fun getBudget() {
-
         budgetRepository.getBudgetFlow().collect{ budget ->
             _myBudget.value = budget
         }
