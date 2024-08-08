@@ -1,9 +1,6 @@
 package com.example.minhasdespesas.presentation.screens.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,24 +9,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -48,7 +38,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
-import com.example.minhasdespesas.presentation.screens.category.DialogDeleteCategory
 import com.example.minhasdespesas.ui.theme.Purple20
 import com.example.minhasdespesas.ui.theme.Purple40
 
@@ -63,17 +52,17 @@ fun ExpenseDetail(
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseValue by rememberSaveable { mutableStateOf("") }
     var newCategoryName by rememberSaveable { mutableStateOf("") }
-    var categoryName by rememberSaveable { mutableStateOf("") }
-    var expanded by remember { mutableStateOf(false) }
+    var selectedColor by rememberSaveable { mutableStateOf("") }
+    var expandedCategories by remember { mutableStateOf(false) }
+    var expandedColors by remember { mutableStateOf(false) }
     val expenses by expenseDetailViewModel.expensesUi.collectAsState()
     val categories by categoryViewModel.categories.collectAsState()
     val title = expenses?.title ?: ""
     val value = expenses?.expenseValue ?: ""
     val category = expenses?.category ?: ""
 
-    expenseDetailViewModel.fetchExpenseDetail(expenseId)
-
     LaunchedEffect(expenses) {
+        expenseDetailViewModel.fetchExpenseDetail(expenseId)
         expenseName = title
         expenseValue = value
         newCategoryName = category
@@ -135,7 +124,23 @@ fun ExpenseDetail(
                 label = { Text("Categoria") },
                 modifier = Modifier.weight(1f),
             )
-            IconButton(onClick = { expanded = !expanded }) {
+            IconButton(onClick = { expandedCategories = !expandedCategories }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "Expandir/Colapsar Lista"
+                )
+            }
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Box(){
+                Text(text = "Cor")
+
+
+            }
+            IconButton(onClick = { expandedColors = !expandedColors }) {
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = "Expandir/Colapsar Lista"
@@ -144,34 +149,15 @@ fun ExpenseDetail(
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-        if (expanded) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                ,
-            ) {
-                items(categories) { category ->
-                    Text(
-                        text = category.name,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Purple20, shape = RoundedCornerShape(8.dp))
-                            .clickable {
-                                newCategoryName = category.name
-                            }
-                            .padding(8.dp),
-                        color = Color.White,
-                    )
-                }
-            }
+        if (expandedCategories) {
+            DropMenuCategories()
         }
+
 
         Button(
             onClick = {
                 expenseDetailViewModel.editAndSaveExpense(
-                    expenseName, expenseValue, newCategoryName, expenseId.toString()
+                    expenseName, expenseValue, selectedColor, expenseId.toString()
                 )
             },
             modifier = Modifier

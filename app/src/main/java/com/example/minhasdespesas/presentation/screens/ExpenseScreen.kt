@@ -51,7 +51,6 @@ fun ExpensesScreen(
     navController: NavHostController,
 ) {
     var showSheet by remember { mutableStateOf(false) }
-    val categoryViewModel: CategoryViewModel = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
@@ -86,7 +85,6 @@ fun ExpensesScreen(
 
         if (showSheet) {
             ExpenseBottomSheet(
-                navController,
                 onDismiss = { coroutineScope.launch { showSheet = false } }
             )
         }
