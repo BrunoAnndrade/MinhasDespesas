@@ -12,12 +12,6 @@ import androidx.room.PrimaryKey
             parentColumns = ["name"],
             childColumns = ["category"],
             onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = ColorEntity::class,
-            parentColumns = ["colorHex"],
-            childColumns = ["color"],
-            onDelete = ForeignKey.CASCADE
         )
     ]
 )
@@ -26,9 +20,9 @@ data class ExpenseEntity(
     val id: Int = 0,
     val title: String,
     val expenseValue: String,
-    val date: String,
+    val date:String,
     val category: String,
-    val color: String
+    val color:String
 
 )
 
