@@ -31,9 +31,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 fun DropMenuColors(
     expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel(),
 ){
-    val colors = expenseDetailViewModel.listColors
 
-    var selectedColor by rememberSaveable { mutableStateOf(colors[0]) }
 
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
@@ -46,20 +44,7 @@ fun DropMenuColors(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        items(colors.size) { index ->
-            val color = colors[index]
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .background(color, shape = RoundedCornerShape(8.dp))
-                    .clickable {
-                        selectedColor = color
-                    }
-                    .padding(8.dp)
-            )
 
-        }
     }
 }
 

@@ -33,6 +33,8 @@ class ExpenseBottomSheetViewModel @Inject constructor(
                 title = expenseName,
                 expenseValue = expenseValue,
                 category = category,
+                color = "",
+                date = ""
 
             )
             categoryRepository.insertCategory(categories)

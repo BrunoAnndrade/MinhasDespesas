@@ -50,7 +50,9 @@ class ExpenseDetailViewModel @Inject constructor(
                 title = expenseName,
                 expenseValue = expenseValue,
                 category = category,
-                id = id.toInt()
+                id = id.toInt(),
+                color = "",
+                date = ""
 
             )
             categoryRepository.insertCategory(categories)

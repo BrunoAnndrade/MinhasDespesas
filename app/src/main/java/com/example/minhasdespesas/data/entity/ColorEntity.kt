@@ -8,5 +8,5 @@ import androidx.room.PrimaryKey
 data class ColorEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val colorHex: String 
+    val colorHex: String
 )
