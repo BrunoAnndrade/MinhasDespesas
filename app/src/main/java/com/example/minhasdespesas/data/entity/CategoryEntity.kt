@@ -10,5 +10,4 @@ import androidx.room.PrimaryKey
 data class CategoryEntity(
     @PrimaryKey
     val name:String,
-    val isSelected:Boolean,
 )

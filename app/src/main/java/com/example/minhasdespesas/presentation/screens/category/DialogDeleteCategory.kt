@@ -55,7 +55,7 @@ fun DialogDeleteCategory(
 fun DialogDeleteCategoryPreview(){
     DialogDeleteCategory(
         onDismiss = {},
-        category = CategoryEntity(name = "Alimentação", isSelected = false)
+        category = CategoryEntity(name = "Alimentação")
     )
 
 }

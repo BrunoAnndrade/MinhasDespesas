@@ -9,7 +9,13 @@ import com.example.minhasdespesas.data.entity.BudgetEntity
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 
-@Database(entities = [ExpenseEntity::class, BudgetEntity::class, CategoryEntity::class], version = 3)
+@Database(
+    entities = [
+        ExpenseEntity::class,
+        BudgetEntity::class,
+        CategoryEntity::class],
+    version = 3
+)
 abstract class AppDataBase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao
     abstract fun budgetDao(): BudgetDao

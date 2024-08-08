@@ -40,7 +40,7 @@ class CategoryViewModel @Inject constructor(
     fun getAllCategories() {
         viewModelScope.launch {
             categoryRepository.getAllCategory().collect{
-                val allCategory = CategoryEntity(name = "All", isSelected = false)
+                val allCategory = CategoryEntity(name = "All")
                 _categories.value = it + allCategory
             }
         }

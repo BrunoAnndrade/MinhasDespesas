@@ -68,7 +68,7 @@ fun BudgetScreen() {
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,
-                    color = if (budget < "0") Color.Red else Color.Black
+                    color = Color.Black
                 ),
                 modifier = Modifier
                     .padding(start = 5.dp, end = 10.dp)

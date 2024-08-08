@@ -28,7 +28,6 @@ class ExpenseBottomSheetViewModel @Inject constructor(
         viewModelScope.launch {
             val categories = CategoryEntity(
                 name = category,
-                isSelected = false
             )
             val expenses = ExpenseEntity(
                 title = expenseName,
