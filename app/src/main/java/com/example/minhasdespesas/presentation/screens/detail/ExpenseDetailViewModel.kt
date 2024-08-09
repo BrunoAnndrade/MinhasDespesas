@@ -34,13 +34,12 @@ class ExpenseDetailViewModel @Inject constructor(
         }
     }
 
-
-
     fun editAndSaveExpense(
         expenseName: String,
         expenseValue: String,
         category: String,
-        id:String
+        id:String,
+        selectedColor: String
     ) {
         viewModelScope.launch {
             val categories = CategoryEntity(
@@ -51,7 +50,7 @@ class ExpenseDetailViewModel @Inject constructor(
                 expenseValue = expenseValue,
                 category = category,
                 id = id.toInt(),
-                color = "",
+                color = selectedColor,
                 date = ""
 
             )

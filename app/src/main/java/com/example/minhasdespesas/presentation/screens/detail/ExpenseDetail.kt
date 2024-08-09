@@ -1,6 +1,7 @@
 package com.example.minhasdespesas.presentation.screens.detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -52,7 +55,7 @@ fun ExpenseDetail(
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseValue by rememberSaveable { mutableStateOf("") }
     var newCategoryName by rememberSaveable { mutableStateOf("") }
-    var selectedColor by rememberSaveable { mutableStateOf("") }
+    var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
     var expandedCategories by remember { mutableStateOf(false) }
     var expandedColors by remember { mutableStateOf(false) }
     val expenses by expenseDetailViewModel.expensesUi.collectAsState()
@@ -66,6 +69,8 @@ fun ExpenseDetail(
         expenseName = title
         expenseValue = value
         newCategoryName = category
+        selectedColor = if (!expenses?.color.isNullOrEmpty()) expenses?.color!! else "#E57373"
+
     }
 
     Column(
@@ -135,11 +140,17 @@ fun ExpenseDetail(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(){
-                Text(text = "Cor")
-
-
-            }
+            Text(
+                modifier = Modifier.weight(1f),
+                text = "Cor"
+            )
+            Box(
+                modifier = Modifier
+                    .width(40.dp)
+                    .height(40.dp)
+                    .background(Color(android.graphics.Color.parseColor(selectedColor)), shape = CircleShape)
+                    .padding(8.dp)
+            )
             IconButton(onClick = { expandedColors = !expandedColors }) {
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
@@ -152,12 +163,17 @@ fun ExpenseDetail(
         if (expandedCategories) {
             DropMenuCategories()
         }
+        if (expandedColors) {
+            DropMenuColors(onColorSelected = { colorHex ->
+                selectedColor = colorHex
+            })
+        }
 
 
         Button(
             onClick = {
                 expenseDetailViewModel.editAndSaveExpense(
-                    expenseName, expenseValue, selectedColor, expenseId.toString()
+                    expenseName, expenseValue,newCategoryName, expenseId.toString(),selectedColor
                 )
             },
             modifier = Modifier
