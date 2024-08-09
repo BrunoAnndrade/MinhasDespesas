@@ -59,6 +59,7 @@ fun ExpenseListCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .padding(10.dp)
                         .combinedClickable(
                             onClick = {
                                 val expenseId = expenseItem.id.toString()
@@ -70,19 +71,19 @@ fun ExpenseListCard(
                                     expenseItem
                                 )
                             }
-                        )
-
-                        .padding(10.dp),
+                        ),
                     verticalAlignment = Alignment.CenterVertically
-
                 ) {
                     Box(
                         modifier = Modifier
                             .background(
-                                Color(parseColor(expenseItem.color)), shape = CircleShape)
+                                if (expenseItem.color.isEmpty()) Color.White
+                                else Color(parseColor(expenseItem.color)),
+                                shape = CircleShape
+                            )
                             .width(20.dp)
                             .height(20.dp)
-                    ){
+                    ) {
 
                     }
                     Column(
@@ -91,7 +92,7 @@ fun ExpenseListCard(
                             .padding(start = 5.dp),
                         horizontalAlignment = Alignment.Start,
 
-                    ) {
+                        ) {
                         Text(
                             text = expenseItem.title,
                             style = TextStyle.Default.copy(
@@ -110,8 +111,7 @@ fun ExpenseListCard(
 
                     Column(
                         modifier = Modifier
-                            .weight(1f)
-                        ,
+                            .weight(1f),
                         horizontalAlignment = Alignment.End,
                     ) {
                         Text(
@@ -128,8 +128,7 @@ fun ExpenseListCard(
                     modifier = Modifier
                         .height(1.dp)
                         .fillMaxWidth()
-                        .background(Color.LightGray)
-                    ,
+                        .background(Color.LightGray),
                 )
             }
         }

@@ -1,12 +1,18 @@
 package com.example.minhasdespesas.presentation.screens.detail
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.ui.graphics.Color
+
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -29,11 +35,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
+import android.graphics.Color.parseColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,6 +54,9 @@ fun ExpenseBottomSheet(
     var newCategoryName by rememberSaveable { mutableStateOf("") }
     var expandedCategories by remember { mutableStateOf(false) }
     val categories by categoryViewModel.categories.collectAsState()
+    var expandedColors by remember { mutableStateOf(false) }
+    var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
+
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
@@ -108,6 +117,26 @@ fun ExpenseBottomSheet(
                     modifier = Modifier.weight(1f),
                 )
                 IconButton(onClick = { expandedCategories = !expandedCategories }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = "Expandir/Colapsar Lista"
+                    )
+                }
+            }
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(40.dp)
+                        .height(40.dp)
+                        .background(Color(parseColor(selectedColor)), shape = CircleShape)
+                        .padding(8.dp)
+                )
+                IconButton(onClick = { expandedColors = !expandedColors }) {
                     Icon(
                         imageVector = Icons.Default.ArrowDropDown,
                         contentDescription = "Expandir/Colapsar Lista"

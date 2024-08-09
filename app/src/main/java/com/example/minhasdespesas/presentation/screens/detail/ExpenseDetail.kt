@@ -137,13 +137,11 @@ fun ExpenseDetail(
             }
         }
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "Cor"
-            )
             Box(
                 modifier = Modifier
                     .width(40.dp)
