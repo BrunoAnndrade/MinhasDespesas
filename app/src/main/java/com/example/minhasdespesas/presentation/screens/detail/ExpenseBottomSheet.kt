@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import android.graphics.Color.parseColor
+import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

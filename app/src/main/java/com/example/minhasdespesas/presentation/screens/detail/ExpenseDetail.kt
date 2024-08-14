@@ -1,7 +1,6 @@
 package com.example.minhasdespesas.presentation.screens.detail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,16 +39,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
+import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
+import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuColors
 import com.example.minhasdespesas.ui.theme.Purple20
 import com.example.minhasdespesas.ui.theme.Purple40
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, FormatStringsInDatetimeFormats::class)
 @Composable
 fun ExpenseDetail(
     expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel(),
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
     expenseId: String? = null,
 ) {
     var expenseName by rememberSaveable { mutableStateOf("") }
@@ -59,7 +59,6 @@ fun ExpenseDetail(
     var expandedCategories by remember { mutableStateOf(false) }
     var expandedColors by remember { mutableStateOf(false) }
     val expenses by expenseDetailViewModel.expensesUi.collectAsState()
-    val categories by categoryViewModel.categories.collectAsState()
     val title = expenses?.title ?: ""
     val value = expenses?.expenseValue ?: ""
     val category = expenses?.category ?: ""
@@ -146,7 +145,10 @@ fun ExpenseDetail(
                 modifier = Modifier
                     .width(40.dp)
                     .height(40.dp)
-                    .background(Color(android.graphics.Color.parseColor(selectedColor)), shape = CircleShape)
+                    .background(
+                        Color(android.graphics.Color.parseColor(selectedColor)),
+                        shape = CircleShape
+                    )
                     .padding(8.dp)
             )
             IconButton(onClick = { expandedColors = !expandedColors }) {
@@ -156,6 +158,9 @@ fun ExpenseDetail(
                 )
             }
         }
+
+        DateContent()
+
         Spacer(modifier = Modifier.height(16.dp))
 
         if (expandedCategories) {
@@ -167,11 +172,10 @@ fun ExpenseDetail(
             })
         }
 
-
         Button(
             onClick = {
                 expenseDetailViewModel.editAndSaveExpense(
-                    expenseName, expenseValue,newCategoryName, expenseId.toString(),selectedColor
+                    expenseName, expenseValue, newCategoryName, expenseId.toString(), selectedColor
                 )
             },
             modifier = Modifier

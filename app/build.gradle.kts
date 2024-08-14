@@ -79,6 +79,8 @@ dependencies {
     implementation (libs.hilt.compiler)
     ksp(libs.hilt.android.compiler)
 
+    implementation(libs.kotlinx.datetime)
+
 
 
     testImplementation(libs.junit)
