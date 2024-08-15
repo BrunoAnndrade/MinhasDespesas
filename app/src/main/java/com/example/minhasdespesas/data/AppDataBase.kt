@@ -8,6 +8,9 @@ import com.example.minhasdespesas.data.dao.ExpenseDao
 import com.example.minhasdespesas.data.entity.BudgetEntity
 import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.data.entity.ExpenseEntity
+import androidx.room.AutoMigration
+import androidx.room.migration.AutoMigrationSpec
+
 
 @Database(
     entities = [
@@ -15,7 +18,12 @@ import com.example.minhasdespesas.data.entity.ExpenseEntity
         BudgetEntity::class,
         CategoryEntity::class,
     ],
-    version = 3
+    version = 4,
+    exportSchema = true,
+    autoMigrations = [
+        AutoMigration(from = 3, to = 4)
+    ]
+
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract fun expenseDao(): ExpenseDao

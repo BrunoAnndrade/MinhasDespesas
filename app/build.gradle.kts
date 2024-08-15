@@ -1,12 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.room)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.compose.compiler)
     alias(libs.plugins.hilt)
 }
 
 android {
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
     namespace = "com.example.minhasdespesas"
     compileSdk = 34
 

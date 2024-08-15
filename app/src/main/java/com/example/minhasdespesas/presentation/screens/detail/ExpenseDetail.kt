@@ -23,6 +23,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -58,18 +59,16 @@ fun ExpenseDetail(
     var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
     var expandedCategories by remember { mutableStateOf(false) }
     var expandedColors by remember { mutableStateOf(false) }
+    var date by remember{mutableStateOf("")}
     val expenses by expenseDetailViewModel.expensesUi.collectAsState()
-    val title = expenses?.title ?: ""
-    val value = expenses?.expenseValue ?: ""
-    val category = expenses?.category ?: ""
 
     LaunchedEffect(expenses) {
         expenseDetailViewModel.fetchExpenseDetail(expenseId)
-        expenseName = title
-        expenseValue = value
-        newCategoryName = category
+        expenseName = expenses?.title ?: ""
+        expenseValue = expenses?.expenseValue ?: ""
+        newCategoryName = expenses?.category ?: ""
         selectedColor = if (!expenses?.color.isNullOrEmpty()) expenses?.color!! else "#E57373"
-
+        date = expenseDetailViewModel.convertMillisToFormattedDate(expenses?.date)
     }
 
     Column(
@@ -159,7 +158,8 @@ fun ExpenseDetail(
             }
         }
 
-        DateContent()
+        DatePickerContent(date = date,onDateChange = {date = it})
+
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -175,7 +175,12 @@ fun ExpenseDetail(
         Button(
             onClick = {
                 expenseDetailViewModel.editAndSaveExpense(
-                    expenseName, expenseValue, newCategoryName, expenseId.toString(), selectedColor
+                    expenseName,
+                    expenseValue,
+                    newCategoryName,
+                    expenseId.toString(),
+                    selectedColor,
+                    expenseDetailViewModel.convertDateToTimestamp(date)
                 )
             },
             modifier = Modifier

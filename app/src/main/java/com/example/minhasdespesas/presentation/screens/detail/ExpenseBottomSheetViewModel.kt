@@ -34,7 +34,7 @@ class ExpenseBottomSheetViewModel @Inject constructor(
                 expenseValue = expenseValue,
                 category = category,
                 color = "",
-                date = ""
+                date = null
 
             )
             categoryRepository.insertCategory(categories)
@@ -42,7 +42,7 @@ class ExpenseBottomSheetViewModel @Inject constructor(
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expenses.expenseValue.toDoubleOrNull() ?: 0.0
+            val expenseValueDouble = expenses.expenseValue?.toDoubleOrNull() ?: 0.0
             val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble - expenseValueDouble
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())

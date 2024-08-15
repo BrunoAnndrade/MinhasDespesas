@@ -77,7 +77,7 @@ fun ExpenseListCard(
                     Box(
                         modifier = Modifier
                             .background(
-                                if (expenseItem.color.isEmpty()) Color.White
+                                if (expenseItem.color?.isEmpty() == true) Color.White
                                 else Color(parseColor(expenseItem.color)),
                                 shape = CircleShape
                             )
@@ -100,13 +100,15 @@ fun ExpenseListCard(
                                 fontSize = 20.sp,
                             ),
                         )
-                        Text(
-                            text = expenseItem.category,
-                            style = TextStyle.Default.copy(
-                                fontSize = 16.sp,
-                                color = Color.Black
-                            ),
-                        )
+                        expenseItem.category?.let {
+                            Text(
+                                text = it,
+                                style = TextStyle.Default.copy(
+                                    fontSize = 16.sp,
+                                    color = Color.Black
+                                ),
+                            )
+                        }
                     }
 
                     Column(

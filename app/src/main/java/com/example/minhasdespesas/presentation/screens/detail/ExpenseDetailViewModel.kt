@@ -1,6 +1,5 @@
 package com.example.minhasdespesas.presentation.screens.detail
 
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.BudgetEntity
@@ -15,6 +14,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.atStartOfDayIn
+import kotlinx.datetime.format
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -22,24 +29,40 @@ class ExpenseDetailViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository,
     private val budgetRepository: BudgetRepository,
     private val categoryRepository: CategoryRepository
-):ViewModel() {
+) : ViewModel() {
 
     private val _expensesUi = MutableStateFlow<ExpenseEntity?>(null)
     val expensesUi: StateFlow<ExpenseEntity?> = _expensesUi
 
-    fun fetchExpenseDetail(moviesId: String?){
+    fun fetchExpenseDetail(moviesId: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             val data = moviesId?.let { expenseRepository.getExpenseById(it) }
             _expensesUi.value = data
         }
+    }
+    @OptIn(FormatStringsInDatetimeFormats::class)
+    fun convertDateToTimestamp(dateString: String): Long {
+        return LocalDate.parse(dateString,LocalDate.Format { byUnicodePattern("dd/MM/yyyy")} )
+                .atStartOfDayIn(TimeZone.UTC)
+                .toEpochMilliseconds()
+    }
+
+    @OptIn(FormatStringsInDatetimeFormats::class)
+    fun convertMillisToFormattedDate(millis: Long?): String {
+        return millis?.let {
+            Instant.fromEpochMilliseconds(it)
+                .toLocalDateTime(TimeZone.UTC)
+                .date.format(LocalDate.Format { byUnicodePattern("dd/MM/yyyy") })
+        } ?: ""
     }
 
     fun editAndSaveExpense(
         expenseName: String,
         expenseValue: String,
         category: String,
-        id:String,
-        selectedColor: String
+        id: String,
+        selectedColor: String,
+        date: Long?
     ) {
         viewModelScope.launch {
             val categories = CategoryEntity(
@@ -51,7 +74,7 @@ class ExpenseDetailViewModel @Inject constructor(
                 category = category,
                 id = id.toInt(),
                 color = selectedColor,
-                date = ""
+                date = date
 
             )
             categoryRepository.insertCategory(categories)
@@ -59,7 +82,7 @@ class ExpenseDetailViewModel @Inject constructor(
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expenses.expenseValue.toDoubleOrNull() ?: 0.0
+            val expenseValueDouble = expenses.expenseValue?.toDoubleOrNull() ?: 0.0
             val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble - expenseValueDouble
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())

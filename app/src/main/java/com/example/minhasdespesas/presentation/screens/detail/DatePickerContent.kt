@@ -24,6 +24,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
@@ -35,11 +36,13 @@ import kotlinx.datetime.toLocalDateTime
 
 @OptIn(ExperimentalMaterial3Api::class, FormatStringsInDatetimeFormats::class)
 @Composable
-fun DateContent(){
-
-    var date by rememberSaveable { mutableStateOf("") }
-    val state = rememberDatePickerState()
+fun DatePickerContent(
+    date:String,
+    onDateChange: (String) -> Unit,
+    expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel()
+){
     var openDataPicker by remember { mutableStateOf(false) }
+    val state = rememberDatePickerState()
 
     Row {
         TextField(
@@ -69,14 +72,12 @@ fun DateContent(){
                 onDismissRequest = { openDataPicker = false },
                 confirmButton = {
                     Button(onClick = {
-                        state.selectedDateMillis?.let { millis->
-                            date = Instant
-                                .fromEpochMilliseconds(millis)
-                                .toLocalDateTime(TimeZone.UTC)
-                                .date.format(LocalDate.Format {
-                                    byUnicodePattern("dd/MM/yyyy")
-                                })
-                        }
+                       val selectedDate =
+                           state.selectedDateMillis.let {
+                               expenseDetailViewModel.convertMillisToFormattedDate(it)
+                           }
+                            onDateChange(selectedDate)
+
                         openDataPicker = false
 
                     }) {
