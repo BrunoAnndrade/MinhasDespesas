@@ -47,22 +47,19 @@ import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuC
 @Composable
 fun ExpenseBottomSheet(
     bottomSheetViewModel: ExpenseBottomSheetViewModel = hiltViewModel(),
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
     onDismiss: () -> Unit = {}
 ) {
-    val modalBottomSheetState = rememberModalBottomSheetState()
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseValue by rememberSaveable { mutableStateOf("") }
     var newCategoryName by rememberSaveable { mutableStateOf("") }
     var expandedCategories by remember { mutableStateOf(false) }
-    val categories by categoryViewModel.categories.collectAsState()
     var expandedColors by remember { mutableStateOf(false) }
     var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
     var date by remember { mutableStateOf("") }
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
-        sheetState = modalBottomSheetState,
+        sheetState = rememberModalBottomSheetState(),
         dragHandle = { BottomSheetDefaults.DragHandle() },
         modifier = Modifier
             .imePadding(),
