@@ -44,7 +44,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.minhasdespesas.presentation.components.MySnackBar
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuColors
 import com.example.minhasdespesas.ui.theme.Purple20
@@ -148,6 +147,9 @@ fun ExpenseDetail(
                     )
                 }
             }
+            if (expandedCategories) {
+                DropMenuCategories()
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -171,20 +173,15 @@ fun ExpenseDetail(
                     )
                 }
             }
-
-            DatePickerContent(date = date, onDateChange = { date = it })
-
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            if (expandedCategories) {
-                DropMenuCategories()
-            }
             if (expandedColors) {
                 DropMenuColors(onColorSelected = { colorHex ->
                     selectedColor = colorHex
                 })
             }
+
+            DatePickerContent(date = date, onDateChange = { date = it })
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             Button(
                 onClick = {

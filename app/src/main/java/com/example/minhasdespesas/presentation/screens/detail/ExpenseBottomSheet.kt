@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import android.graphics.Color.parseColor
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
+import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,9 +57,8 @@ fun ExpenseBottomSheet(
     var expandedCategories by remember { mutableStateOf(false) }
     val categories by categoryViewModel.categories.collectAsState()
     var expandedColors by remember { mutableStateOf(false) }
-    val selectedColor by rememberSaveable { mutableStateOf("#E57373") }
-
-
+    var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
+    var date by remember { mutableStateOf("") }
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
@@ -109,13 +109,6 @@ fun ExpenseBottomSheet(
                     value = newCategoryName,
                     onValueChange = { newCategoryName = it },
                     label = { Text("Categoria") },
-                    colors = TextFieldDefaults.colors(
-                        errorPlaceholderColor = Color.Red,
-                        unfocusedContainerColor = Color.White,
-                        focusedContainerColor = Color.White,
-                        focusedIndicatorColor = Color.LightGray,
-                        unfocusedIndicatorColor = Color.LightGray
-                    ),
                     modifier = Modifier.weight(1f),
                 )
                 IconButton(onClick = { expandedCategories = !expandedCategories }) {
@@ -124,6 +117,9 @@ fun ExpenseBottomSheet(
                         contentDescription = "Expandir/Colapsar Lista"
                     )
                 }
+            }
+            if (expandedCategories) {
+                DropMenuCategories()
             }
             Row(
                 modifier = Modifier
@@ -145,11 +141,16 @@ fun ExpenseBottomSheet(
                     )
                 }
             }
+            if (expandedColors) {
+                DropMenuColors(onColorSelected = { colorHex ->
+                    selectedColor = colorHex
+                })
+            }
+
+            DatePickerContent(date = date, onDateChange = { date = it })
+
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (expandedCategories) {
-                DropMenuCategories()
-            }
 
             Button(
                 onClick = {
