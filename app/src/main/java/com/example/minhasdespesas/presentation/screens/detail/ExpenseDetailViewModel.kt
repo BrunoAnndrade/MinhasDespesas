@@ -42,9 +42,12 @@ class ExpenseDetailViewModel @Inject constructor(
     }
     @OptIn(FormatStringsInDatetimeFormats::class)
     fun convertDateToTimestamp(dateString: String): Long {
-        return LocalDate.parse(dateString,LocalDate.Format { byUnicodePattern("dd/MM/yyyy")} )
+        return LocalDate.parse(
+            dateString,LocalDate.Format { byUnicodePattern("dd/MM/yyyy")}
+        )
                 .atStartOfDayIn(TimeZone.UTC)
                 .toEpochMilliseconds()
+
     }
 
     @OptIn(FormatStringsInDatetimeFormats::class)
@@ -64,7 +67,7 @@ class ExpenseDetailViewModel @Inject constructor(
         selectedColor: String,
         date: Long?
     ) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val categories = CategoryEntity(
                 name = category,
             )
@@ -82,7 +85,7 @@ class ExpenseDetailViewModel @Inject constructor(
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expenses.expenseValue?.toDoubleOrNull() ?: 0.0
+            val expenseValueDouble = expenses.expenseValue.toDoubleOrNull() ?: 0.0
             val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble - expenseValueDouble
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())

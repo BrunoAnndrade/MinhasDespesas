@@ -56,7 +56,8 @@ fun ExpenseBottomSheet(
     var expandedCategories by remember { mutableStateOf(false) }
     val categories by categoryViewModel.categories.collectAsState()
     var expandedColors by remember { mutableStateOf(false) }
-    var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
+    val selectedColor by rememberSaveable { mutableStateOf("#E57373") }
+
 
 
     ModalBottomSheet(

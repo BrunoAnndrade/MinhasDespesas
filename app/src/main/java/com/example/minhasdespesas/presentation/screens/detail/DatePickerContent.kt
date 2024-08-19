@@ -67,7 +67,7 @@ fun DatePickerContent(
         IconButton(onClick = { openDataPicker = true }) {
             Icon(imageVector = Icons.Default.DateRange, contentDescription = "calendar")
         }
-        AnimatedVisibility(openDataPicker) {
+        if(openDataPicker) {
             DatePickerDialog(
                 onDismissRequest = { openDataPicker = false },
                 confirmButton = {
