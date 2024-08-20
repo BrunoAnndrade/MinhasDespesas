@@ -123,7 +123,10 @@ fun ExpenseBottomSheet(
                 }
             }
             if (expandedCategories) {
-                DropMenuCategories()
+                DropMenuCategories(onCategorySelected = {
+                    newCategoryName = it
+                    expandedCategories = false
+                })
             }
             Row(
                 modifier = Modifier

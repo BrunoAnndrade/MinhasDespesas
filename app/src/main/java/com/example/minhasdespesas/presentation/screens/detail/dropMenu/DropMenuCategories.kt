@@ -31,6 +31,7 @@ import com.example.minhasdespesas.ui.theme.Purple20
 @Composable
 fun DropMenuCategories(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
+    onCategorySelected: (String) -> Unit
 ){
     val categories by categoryViewModel.categories.collectAsState()
     var newCategoryName by rememberSaveable { mutableStateOf("") }
@@ -42,7 +43,6 @@ fun DropMenuCategories(
             alignment = CenterHorizontally
         ),
         verticalItemSpacing = 4.dp,
-
         modifier = Modifier
             .fillMaxSize()
     ) {
@@ -57,6 +57,7 @@ fun DropMenuCategories(
                     .background(Purple20, shape = RoundedCornerShape(8.dp))
                     .clickable {
                         newCategoryName = category.name
+                        onCategorySelected(newCategoryName)
                     }
                     .padding(8.dp),
                 color = Color.White,

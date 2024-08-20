@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -26,7 +25,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -44,18 +42,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuColors
 import com.example.minhasdespesas.ui.theme.Purple20
 import com.example.minhasdespesas.ui.theme.Purple40
 import kotlinx.coroutines.launch
-import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 
-
-@OptIn(ExperimentalMaterial3Api::class, FormatStringsInDatetimeFormats::class)
 @Composable
 fun ExpenseDetail(
     expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel(),
+    categoryViewModel: CategoryViewModel = hiltViewModel(),
     expenseId: String? = null,
 ) {
     var expenseName by rememberSaveable { mutableStateOf("") }
@@ -66,8 +63,9 @@ fun ExpenseDetail(
     var expandedColors by remember { mutableStateOf(false) }
     var date by remember { mutableStateOf("") }
     val expenses by expenseDetailViewModel.expensesUi.collectAsState()
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
+    val categories by categoryViewModel.categories.collectAsState()
 
     LaunchedEffect(expenses) {
         expenseDetailViewModel.fetchExpenseDetail(expenseId)
@@ -80,7 +78,7 @@ fun ExpenseDetail(
 
     Scaffold(
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(hostState = snackBarHostState)
         }
     ) {paddingValues->
         Column(
@@ -155,7 +153,13 @@ fun ExpenseDetail(
                 }
             }
             if (expandedCategories) {
-                DropMenuCategories()
+                DropMenuCategories(
+                    onCategorySelected = {
+                        newCategoryName = it
+                        expandedCategories = false
+                    }
+                )
+
             }
             Row(
                 modifier = Modifier
@@ -200,7 +204,7 @@ fun ExpenseDetail(
                         date.isEmpty()
                     ){
                         coroutineScope.launch {
-                            snackbarHostState.showSnackbar("Preencha todos os campos")
+                            snackBarHostState.showSnackbar("Preencha todos os campos")
                         }
                     } else{
                         expenseDetailViewModel.editAndSaveExpense(
