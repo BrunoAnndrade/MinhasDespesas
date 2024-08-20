@@ -24,7 +24,7 @@ fun AppNavGraph() {
         ) { backStackEntry ->
             val expenseId = requireNotNull(backStackEntry.arguments?.getString("expenseId"))
 
-            ExpenseDetail(expenseId = expenseId)
+            ExpenseDetail(expenseId = expenseId, navController = navController)
         }
 
         composable(route = "expenseList") {

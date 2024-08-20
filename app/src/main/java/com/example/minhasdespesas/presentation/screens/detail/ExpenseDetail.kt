@@ -43,6 +43,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
 import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuColors
@@ -54,6 +55,7 @@ import kotlinx.coroutines.launch
 fun ExpenseDetail(
     expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel(),
     expenseId: String? = null,
+    navController: NavHostController,
 ) {
     var expenseName by rememberSaveable { mutableStateOf("") }
     var expenseValue by rememberSaveable { mutableStateOf("") }
@@ -211,6 +213,7 @@ fun ExpenseDetail(
                             selectedColor,
                             expenseDetailViewModel.convertDateToTimestamp(date)
                         )
+                        navController.navigate("expenseList")
                     }
                 },
                 modifier = Modifier
