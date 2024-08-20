@@ -159,7 +159,6 @@ fun ExpenseBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-
             Button(
                 onClick = {
                     bottomSheetViewModel.saveNewExpense(
@@ -169,6 +168,7 @@ fun ExpenseBottomSheet(
                         selectedColor,
                         expenseDetailViewModel.convertDateToTimestamp(date)
                     )
+                    onDismiss()
                 },
                 modifier = Modifier
                     .fillMaxWidth()
