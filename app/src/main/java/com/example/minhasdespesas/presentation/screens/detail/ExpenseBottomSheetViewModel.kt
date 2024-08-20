@@ -23,7 +23,9 @@ class ExpenseBottomSheetViewModel @Inject constructor(
     fun saveNewExpense(
         expenseName: String,
         expenseValue: String,
-        category: String
+        category: String,
+        selectedColor: String,
+        date: Long?
     ){
         viewModelScope.launch {
             val categories = CategoryEntity(
@@ -33,8 +35,8 @@ class ExpenseBottomSheetViewModel @Inject constructor(
                 title = expenseName,
                 expenseValue = expenseValue,
                 category = category,
-                color = "",
-                date = null
+                color = selectedColor,
+                date = date
 
             )
             categoryRepository.insertCategory(categories)

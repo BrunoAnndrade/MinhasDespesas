@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import android.graphics.Color.parseColor
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -52,7 +53,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun ExpenseDetail(
     expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel(),
-    categoryViewModel: CategoryViewModel = hiltViewModel(),
     expenseId: String? = null,
 ) {
     var expenseName by rememberSaveable { mutableStateOf("") }
@@ -65,7 +65,6 @@ fun ExpenseDetail(
     val expenses by expenseDetailViewModel.expensesUi.collectAsState()
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    val categories by categoryViewModel.categories.collectAsState()
 
     LaunchedEffect(expenses) {
         expenseDetailViewModel.fetchExpenseDetail(expenseId)
@@ -103,7 +102,7 @@ fun ExpenseDetail(
             OutlinedTextField(
                 value = expenseName,
                 onValueChange = { expenseName = it },
-                label = { Text("Nome da despesa") },
+                label = { Text("Despesa") },
                 colors = TextFieldDefaults.colors(
                     errorPlaceholderColor = Color.Red,
                     unfocusedContainerColor = Color.White,
@@ -171,10 +170,7 @@ fun ExpenseDetail(
                     modifier = Modifier
                         .width(40.dp)
                         .height(40.dp)
-                        .background(
-                            Color(android.graphics.Color.parseColor(selectedColor)),
-                            shape = CircleShape
-                        )
+                        .background(Color(parseColor(selectedColor)), shape = CircleShape)
                         .padding(8.dp)
                 )
                 IconButton(onClick = { expandedColors = !expandedColors }) {

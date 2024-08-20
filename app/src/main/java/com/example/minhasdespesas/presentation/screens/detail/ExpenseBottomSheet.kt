@@ -47,6 +47,7 @@ import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuC
 @Composable
 fun ExpenseBottomSheet(
     bottomSheetViewModel: ExpenseBottomSheetViewModel = hiltViewModel(),
+    expenseDetailViewModel: ExpenseDetailViewModel = hiltViewModel(),
     onDismiss: () -> Unit = {}
 ) {
     var expenseName by rememberSaveable { mutableStateOf("") }
@@ -73,7 +74,7 @@ fun ExpenseBottomSheet(
             OutlinedTextField(
                 value = expenseName,
                 onValueChange = { expenseName = it },
-                label = { Text("Expense Name") },
+                label = { Text("Despesa") },
                 colors = TextFieldDefaults.colors(
                     errorPlaceholderColor = Color.Red,
                     unfocusedContainerColor = Color.White,
@@ -87,7 +88,7 @@ fun ExpenseBottomSheet(
                 value = expenseValue,
                 onValueChange = { expenseValue = it },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
-                label = { Text("Expense Value") },
+                label = { Text("Valor") },
                 colors = TextFieldDefaults.colors(
                     errorPlaceholderColor = Color.Red,
                     unfocusedContainerColor = Color.White,
@@ -165,6 +166,8 @@ fun ExpenseBottomSheet(
                         expenseName,
                         expenseValue,
                         newCategoryName,
+                        selectedColor,
+                        expenseDetailViewModel.convertDateToTimestamp(date)
                     )
                 },
                 modifier = Modifier
