@@ -139,6 +139,13 @@ fun ExpenseDetail(
                     onValueChange = { newCategoryName = it },
                     label = { Text("Categoria") },
                     modifier = Modifier.weight(1f),
+                    colors = TextFieldDefaults.colors(
+                        errorPlaceholderColor = Color.Red,
+                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = Color.White,
+                        focusedIndicatorColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.LightGray
+                    ),
                 )
                 IconButton(onClick = { expandedCategories = !expandedCategories }) {
                     Icon(
