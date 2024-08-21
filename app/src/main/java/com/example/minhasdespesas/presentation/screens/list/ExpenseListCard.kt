@@ -36,7 +36,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.minhasdespesas.ui.theme.Purple40
 import android.graphics.Color.parseColor
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import com.example.minhasdespesas.ui.theme.Purple20
+import com.example.minhasdespesas.ui.theme.PurpleBorder
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -49,8 +54,10 @@ fun ExpenseListCard(
 
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White),
+            .fillMaxSize()
+            .background(Color.White)
+            .padding(top = 10.dp)
+        ,
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -59,7 +66,7 @@ fun ExpenseListCard(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp)
+                        .border(1.dp, PurpleBorder, shape = RoundedCornerShape(10.dp))
                         .combinedClickable(
                             onClick = {
                                 val expenseId = expenseItem.id.toString()
@@ -79,17 +86,21 @@ fun ExpenseListCard(
                             .background(
                                 if (expenseItem.color?.isEmpty() == true) Color.White
                                 else Color(parseColor(expenseItem.color)),
-                                shape = CircleShape
+                                shape = RoundedCornerShape(
+                                    topStart = 20.dp,
+                                    bottomStart = 20.dp,
+                                    topEnd = 0.dp,
+                                    bottomEnd = 0.dp
+                                ),
                             )
                             .width(20.dp)
-                            .height(20.dp)
-                    ) {
-
-                    }
+                            .height(63.dp)
+                        ,
+                    )
                     Column(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(start = 5.dp),
+                            .padding(start = 10.dp, top = 10.dp, bottom = 10.dp),
                         horizontalAlignment = Alignment.Start,
 
                         ) {
@@ -113,7 +124,8 @@ fun ExpenseListCard(
 
                     Column(
                         modifier = Modifier
-                            .weight(1f),
+                            .weight(1f)
+                            .padding(end = 10.dp),
                         horizontalAlignment = Alignment.End,
                     ) {
                         Text(
@@ -126,12 +138,7 @@ fun ExpenseListCard(
                         )
                     }
                 }
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                        .background(Color.LightGray),
-                )
+
             }
         }
     }
