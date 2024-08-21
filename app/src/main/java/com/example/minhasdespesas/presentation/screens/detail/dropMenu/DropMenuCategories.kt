@@ -44,7 +44,8 @@ fun DropMenuCategories(
         ),
         verticalItemSpacing = 4.dp,
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
+            .padding(vertical = 10.dp)
     ) {
         items(categories) { category ->
             Text(
