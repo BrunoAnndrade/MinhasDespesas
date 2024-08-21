@@ -156,6 +156,12 @@ fun ExpenseBottomSheet(
             }
 
             DatePickerContent(date = date, onDateChange = { date = it })
+            
+            Text(
+                text = "Preencha todos os campos para salvar.",
+                modifier = Modifier.padding(top = 16.dp),
+                color = Color.Gray
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
 

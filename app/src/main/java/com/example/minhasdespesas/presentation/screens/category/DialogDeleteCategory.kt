@@ -15,7 +15,6 @@ fun DialogDeleteCategory(
     onDismiss: () -> Unit,
     category:CategoryEntity,
     categoryViewModel: CategoryViewModel = hiltViewModel()
-
 ){
 
     AlertDialog(
@@ -34,6 +33,7 @@ fun DialogDeleteCategory(
             Button(
                 onClick = {
                     categoryViewModel.deleteCategory(category)
+                    onDismiss()
                 }
             ) {
                 Text(text = "Sim")
