@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.minhasdespesas.data.entity.BudgetEntity
 import com.example.minhasdespesas.data.entity.ExpenseEntity
 import com.example.minhasdespesas.data.repository.BudgetRepository
-import com.example.minhasdespesas.data.repository.CategoryRepository
 import com.example.minhasdespesas.data.repository.ExpenseRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +31,7 @@ class ExpenseListViewModel @Inject constructor(
 
     private fun getAllExpenses() {
         viewModelScope.launch {
-            expenseRepository.getAllExpenses().collect { expenses ->
+            expenseRepository.getAllExpensesByDate().collect { expenses ->
                 _expensesList.value = expenses
             }
         }
@@ -41,7 +40,7 @@ class ExpenseListViewModel @Inject constructor(
     fun filterExpenseByCategoryName(categoryName: String) {
         viewModelScope.launch {
             if (categoryName == "All") {
-                expenseRepository.getAllExpenses().collect { expenses ->
+                expenseRepository.getAllExpensesByDate().collect { expenses ->
                     _expensesList.value = expenses
                 }
             } else {

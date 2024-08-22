@@ -10,7 +10,7 @@ class ExpenseRepository @Inject constructor(
     private val expenseDao: ExpenseDao,
     private val budgetDao: BudgetDao,
 ) {
-    fun getAllExpenses(): Flow<List<ExpenseEntity>> = expenseDao.getAllExpenses()
+    fun getAllExpensesByDate(): Flow<List<ExpenseEntity>> = expenseDao.getAllExpensesByDate()
     suspend fun getAllExpenseByValue(): Flow<List<ExpenseEntity>> = expenseDao.getAllExpenseByValue()
     fun getExpenseByCategoryName(category: String): Flow<List<ExpenseEntity>> = expenseDao.getExpenseByCategoryName(category)
     suspend fun getExpenseById(expenseId:String): ExpenseEntity? = expenseDao.getExpenseById(expenseId)
