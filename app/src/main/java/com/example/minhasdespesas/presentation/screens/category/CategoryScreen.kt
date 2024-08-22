@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.minhasdespesas.data.entity.CategoryEntity
 import com.example.minhasdespesas.presentation.screens.list.ExpenseViewModel
 import com.example.minhasdespesas.ui.theme.Purple20
 import com.example.minhasdespesas.ui.theme.PurpleLight
@@ -34,10 +35,11 @@ import com.example.minhasdespesas.ui.theme.PurpleLight
 @Composable
 fun CategoryScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
-    expenseViewModel: ExpenseViewModel = hiltViewModel()
+    expenseViewModel: ExpenseViewModel = hiltViewModel(),
 ) {
     val categories by categoryViewModel.categories.collectAsState()
     val showDeleteDialog = remember { mutableStateOf(false) }
+    var selectedCategory = remember { (CategoryEntity("")) }
 
     Box(
         modifier = Modifier
@@ -63,6 +65,7 @@ fun CategoryScreen(
                                     expenseViewModel.filterExpenseByCategoryName(category.name)
                                 },
                                 onLongClick = {
+                                    selectedCategory  = category
                                     showDeleteDialog.value = true
                                 },
                             ),
@@ -71,7 +74,7 @@ fun CategoryScreen(
                     if (showDeleteDialog.value) {
                         DialogDeleteCategory(
                             onDismiss = { showDeleteDialog.value = false },
-                            category = category
+                            category = selectedCategory
                         )
                     }
                 }
@@ -83,6 +86,6 @@ fun CategoryScreen(
 @Preview
 @Composable
 fun CategoryScreenPreview() {
-    CategoryScreen()
+
 
 }
