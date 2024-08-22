@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.minhasdespesas.presentation.screens.detail.ExpenseDetail
+import com.example.minhasdespesas.presentation.screens.expenseDetail.ExpenseDetail
 import com.example.minhasdespesas.presentation.screens.ExpensesScreen
 
 @Composable

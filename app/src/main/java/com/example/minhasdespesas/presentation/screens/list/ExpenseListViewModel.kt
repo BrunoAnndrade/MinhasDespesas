@@ -16,10 +16,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExpenseViewModel @Inject constructor(
+class ExpenseListViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository,
     private val budgetRepository: BudgetRepository,
-    private val categoryRepository: CategoryRepository
 ) : ViewModel() {
 
     private val _expensesList = MutableStateFlow<List<ExpenseEntity>>(emptyList())
@@ -59,19 +58,13 @@ class ExpenseViewModel @Inject constructor(
         }
     }
 
-    fun deleteExpense(expense: ExpenseEntity) {
-        viewModelScope.launch {
-            expenseRepository.deleteExpense(expense)
-        }
-    }
-
     fun deleteExpense(expenseId: Int, expense: ExpenseEntity) {
         viewModelScope.launch {
             expenseRepository.deleteExpenseById(expenseId)
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetDouble = budgetFlow.firstOrNull()?.toDouble()
-            val expenseByIdValue = expense.expenseValue?.toDoubleOrNull() ?: 0.0
+            val expenseByIdValue = expense.expenseValue.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble?.plus(expenseByIdValue)
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())
 

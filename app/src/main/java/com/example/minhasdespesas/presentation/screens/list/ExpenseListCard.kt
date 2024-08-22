@@ -2,7 +2,6 @@ package com.example.minhasdespesas.presentation.screens.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,8 +9,6 @@ import androidx.compose.foundation.layout.Column
 
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -31,16 +28,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.graphics.toColorInt
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.minhasdespesas.ui.theme.Purple40
 import android.graphics.Color.parseColor
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import com.example.minhasdespesas.ui.theme.Purple20
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.example.minhasdespesas.data.entity.ExpenseEntity
 import com.example.minhasdespesas.ui.theme.PurpleBorder
 
 
@@ -48,16 +45,17 @@ import com.example.minhasdespesas.ui.theme.PurpleBorder
 @Composable
 fun ExpenseListCard(
     navController: NavHostController,
-    expenseViewModel: ExpenseViewModel = hiltViewModel()
+    expenseViewModel: ExpenseListViewModel = hiltViewModel(),
 ) {
     val expense by expenseViewModel.expensesList.collectAsState()
+    val showDeleteDialog = remember { mutableStateOf(false) }
+    var selectedExpense = remember { mutableStateOf<ExpenseEntity?>(null) }
 
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 10.dp)
-        ,
+            .padding(top = 10.dp),
     ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -73,10 +71,8 @@ fun ExpenseListCard(
                                 navController.navigate("expenseDetail/${expenseId}")
                             },
                             onLongClick = {
-                                expenseViewModel.deleteExpense(
-                                    expenseItem.id,
-                                    expenseItem
-                                )
+                                selectedExpense.value = expenseItem
+                                showDeleteDialog.value = true
                             }
                         ),
                     verticalAlignment = Alignment.CenterVertically
@@ -94,8 +90,7 @@ fun ExpenseListCard(
                                 ),
                             )
                             .width(20.dp)
-                            .height(63.dp)
-                        ,
+                            .height(63.dp),
                     )
                     Column(
                         modifier = Modifier
@@ -138,9 +133,21 @@ fun ExpenseListCard(
                         )
                     }
                 }
-
             }
         }
+        if (showDeleteDialog.value) {
+            selectedExpense.value?.let { expense ->
+                DialogDeleteExpense(
+                    expense = expense,
+                    expenseId = expense.id,
+                    onDismiss = {
+                        showDeleteDialog.value = false
+
+                    }
+                )
+            }
+        }
+
     }
 }
 

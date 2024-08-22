@@ -1,4 +1,4 @@
-package com.example.minhasdespesas.presentation.screens.detail
+package com.example.minhasdespesas.presentation.screens.expenseDetail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,10 +37,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import android.graphics.Color.parseColor
-import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuCategories
-import com.example.minhasdespesas.presentation.screens.detail.dropMenu.DropMenuColors
+import com.example.minhasdespesas.presentation.screens.expenseDetail.components.DatePickerContent
+import com.example.minhasdespesas.presentation.screens.expenseDetail.components.DropMenuCategories
+import com.example.minhasdespesas.presentation.screens.expenseDetail.components.DropMenuColors
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -33,12 +33,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.minhasdespesas.presentation.screens.category.CategoryViewModel
 import com.example.minhasdespesas.presentation.screens.budget.BudgetScreen
 import com.example.minhasdespesas.presentation.screens.category.CategoryScreen
-import com.example.minhasdespesas.presentation.screens.detail.ExpenseBottomSheet
+import com.example.minhasdespesas.presentation.screens.expenseDetail.ExpenseBottomSheet
 import com.example.minhasdespesas.presentation.screens.list.ExpenseListCard
 import com.example.minhasdespesas.ui.theme.Purple40
 import com.example.minhasdespesas.ui.theme.PurpleLight

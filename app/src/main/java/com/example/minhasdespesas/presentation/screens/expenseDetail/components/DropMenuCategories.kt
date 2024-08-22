@@ -1,9 +1,8 @@
-package com.example.minhasdespesas.presentation.screens.detail.dropMenu
+package com.example.minhasdespesas.presentation.screens.expenseDetail.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
