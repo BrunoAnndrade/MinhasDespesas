@@ -12,6 +12,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.format
+import kotlinx.datetime.format.FormatStringsInDatetimeFormats
+import kotlinx.datetime.format.byUnicodePattern
+import kotlinx.datetime.toLocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -69,6 +76,14 @@ class ExpenseListViewModel @Inject constructor(
 
             budgetRepository.updateBudget(newBudgetObj)
         }
+    }
+    @OptIn(FormatStringsInDatetimeFormats::class)
+    fun convertMillisToFormattedDate(millis: Long?): String {
+        return millis?.let {
+            Instant.fromEpochMilliseconds(it)
+                .toLocalDateTime(TimeZone.UTC)
+                .date.format(LocalDate.Format { byUnicodePattern("dd/MM/yyyy") })
+        } ?: ""
     }
 }
 

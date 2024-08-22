@@ -38,6 +38,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import com.example.minhasdespesas.data.entity.ExpenseEntity
+import com.example.minhasdespesas.ui.theme.Purple20
 import com.example.minhasdespesas.ui.theme.PurpleBorder
 
 
@@ -45,11 +46,11 @@ import com.example.minhasdespesas.ui.theme.PurpleBorder
 @Composable
 fun ExpenseListCard(
     navController: NavHostController,
-    expenseViewModel: ExpenseListViewModel = hiltViewModel(),
+    expenseListViewModel: ExpenseListViewModel = hiltViewModel(),
 ) {
-    val expense by expenseViewModel.expensesList.collectAsState()
+    val expense by expenseListViewModel.expensesList.collectAsState()
     val showDeleteDialog = remember { mutableStateOf(false) }
-    var selectedExpense = remember { mutableStateOf<ExpenseEntity?>(null) }
+    val selectedExpense = remember { mutableStateOf<ExpenseEntity?>(null) }
 
     Box(
         modifier = Modifier
@@ -130,6 +131,15 @@ fun ExpenseListCard(
                                 color = Purple40,
                                 fontSize = 20.sp,
                             ),
+                        )
+                        Text(
+                            text = expenseListViewModel.convertMillisToFormattedDate(expenseItem.date),
+                            style = TextStyle.Default.copy(
+                                fontSize = 16.sp,
+                                color = Color.Gray,
+                                fontWeight = FontWeight.Light
+                            ),
+                            modifier = Modifier.padding(top = 5.dp)
                         )
                     }
                 }
