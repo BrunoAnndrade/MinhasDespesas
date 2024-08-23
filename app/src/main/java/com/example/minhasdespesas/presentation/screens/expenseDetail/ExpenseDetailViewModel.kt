@@ -68,9 +68,7 @@ class ExpenseDetailViewModel @Inject constructor(
         date: Long?
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val categories = CategoryEntity(
-                name = category,
-            )
+            val categories = CategoryEntity(name = category)
             val expenses = ExpenseEntity(
                 title = expenseName,
                 expenseValue = expenseValue,
@@ -78,7 +76,6 @@ class ExpenseDetailViewModel @Inject constructor(
                 id = id.toInt(),
                 color = selectedColor,
                 date = date
-
             )
             categoryRepository.insertCategory(categories)
             expenseRepository.upsertExpense(expenses)
