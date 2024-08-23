@@ -33,9 +33,9 @@ import com.example.minhasdespesas.ui.theme.Purple40
 
 
 @Composable
-fun BudgetScreen() {
-
-    val budgetViewModel: BudgetViewModel = hiltViewModel()
+fun BudgetScreen(
+    budgetViewModel: BudgetViewModel = hiltViewModel()
+) {
     val budget by budgetViewModel.myBudget.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
 
@@ -64,7 +64,7 @@ fun BudgetScreen() {
                 ),
             )
             Text(
-                text = "$budget ",
+                text = budgetViewModel.formatToCurrency(budget),
                 style = TextStyle.Default.copy(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.ExtraBold,

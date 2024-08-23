@@ -19,6 +19,8 @@ import kotlinx.datetime.format
 import kotlinx.datetime.format.FormatStringsInDatetimeFormats
 import kotlinx.datetime.format.byUnicodePattern
 import kotlinx.datetime.toLocalDateTime
+import java.text.NumberFormat
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -62,6 +64,12 @@ class ExpenseListViewModel @Inject constructor(
         viewModelScope.launch {
             expenseRepository.upsertExpense(expense)
         }
+    }
+
+    fun formatToCurrency(value: String): String {
+        val number = value.toDoubleOrNull() ?: 0.0
+        val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+        return format.format(number)
     }
 
     fun deleteExpense(expenseId: Int, expense: ExpenseEntity) {

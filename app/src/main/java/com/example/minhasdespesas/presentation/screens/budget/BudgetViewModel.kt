@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -42,6 +44,12 @@ class BudgetViewModel @Inject constructor(
 
         budgetRepository.insertBudget(newBudgetObj)
         budgetRepository.updateBudget(newBudgetObj)
+    }
+
+    fun formatToCurrency(value: String): String {
+        val number = value.toDoubleOrNull() ?: 0.0
+        val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
+        return format.format(number)
     }
 
 
