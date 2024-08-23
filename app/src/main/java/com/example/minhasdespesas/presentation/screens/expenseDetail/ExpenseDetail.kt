@@ -185,6 +185,7 @@ fun ExpenseDetail(
             if (expandedColors) {
                 DropMenuColors(onColorSelected = { colorHex ->
                     selectedColor = colorHex
+                    expandedColors = false
                 })
             }
 
