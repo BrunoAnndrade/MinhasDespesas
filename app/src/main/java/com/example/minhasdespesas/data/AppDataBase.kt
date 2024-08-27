@@ -18,10 +18,10 @@ import androidx.room.migration.AutoMigrationSpec
         BudgetEntity::class,
         CategoryEntity::class,
     ],
-    version = 4,
+    version = 5,
     exportSchema = true,
     autoMigrations = [
-        AutoMigration(from = 3, to = 4)
+        AutoMigration(from = 4, to = 5)
     ]
 
 )

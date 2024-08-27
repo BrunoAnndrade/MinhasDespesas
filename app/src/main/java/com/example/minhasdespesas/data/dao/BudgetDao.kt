@@ -11,10 +11,13 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BudgetDao {
-    @Query("SELECT budget FROM BudgetEntity WHERE id = 1")
+
+    @Query("SELECT SUM(expenseValue) FROM expenses")
     fun getBudgetFlow(): Flow<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBudget(budgetEntity: BudgetEntity)
+    
     @Update
     suspend fun updateBudget(budgetEntity: BudgetEntity)
 }

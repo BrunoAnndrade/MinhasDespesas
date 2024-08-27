@@ -61,7 +61,7 @@ class ExpenseDetailViewModel @Inject constructor(
 
     fun editAndSaveExpense(
         expenseName: String,
-        expenseValue: String,
+        expenseValue: Double,
         category: String,
         id: String,
         selectedColor: String,
@@ -82,7 +82,7 @@ class ExpenseDetailViewModel @Inject constructor(
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expenses.expenseValue.toDoubleOrNull() ?: 0.0
+            val expenseValueDouble = expenses.expenseValue
             val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
             val newBudget = budgetDouble - expenseValueDouble
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())

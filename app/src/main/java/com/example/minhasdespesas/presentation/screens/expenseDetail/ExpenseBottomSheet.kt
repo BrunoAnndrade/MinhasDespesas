@@ -168,7 +168,7 @@ fun ExpenseBottomSheet(
                 onClick = {
                     bottomSheetViewModel.saveNewExpense(
                         expenseName,
-                        expenseValue,
+                        expenseValue.toDouble(),
                         newCategoryName,
                         selectedColor,
                         expenseDetailViewModel.convertDateToTimestamp(date)

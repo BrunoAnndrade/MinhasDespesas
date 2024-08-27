@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 4,
-    "identityHash": "c32950b49034b05b41c4c42d6e05ef11",
+    "identityHash": "470eb72bd676a68691a0edb276061e52",
     "entities": [
       {
         "tableName": "expenses",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `expenseValue` TEXT NOT NULL, `date` INTEGER, `category` TEXT, `color` TEXT, FOREIGN KEY(`category`) REFERENCES `categories`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `title` TEXT NOT NULL, `expenseValue` REAL NOT NULL, `date` INTEGER, `category` TEXT, `color` TEXT, FOREIGN KEY(`category`) REFERENCES `categories`(`name`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -23,7 +23,7 @@
           {
             "fieldPath": "expenseValue",
             "columnName": "expenseValue",
-            "affinity": "TEXT",
+            "affinity": "REAL",
             "notNull": true
           },
           {
@@ -126,7 +126,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c32950b49034b05b41c4c42d6e05ef11')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '470eb72bd676a68691a0edb276061e52')"
     ]
   }
 }

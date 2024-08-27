@@ -30,6 +30,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -58,7 +59,7 @@ fun ExpenseDetail(
     navController: NavHostController,
 ) {
     var expenseName by rememberSaveable { mutableStateOf("") }
-    var expenseValue by rememberSaveable { mutableStateOf("") }
+    var expenseValue by rememberSaveable { mutableDoubleStateOf(0.0) }
     var newCategoryName by rememberSaveable { mutableStateOf("") }
     var selectedColor by rememberSaveable { mutableStateOf("#E57373") }
     var expandedCategories by remember { mutableStateOf(false) }
@@ -71,7 +72,7 @@ fun ExpenseDetail(
     LaunchedEffect(expenses) {
         expenseDetailViewModel.fetchExpenseDetail(expenseId)
         expenseName = expenses?.title ?: ""
-        expenseValue = expenses?.expenseValue ?: ""
+        expenseValue = expenses?.expenseValue ?: 0.0
         newCategoryName = expenses?.category ?: ""
         selectedColor = if (!expenses?.color.isNullOrEmpty()) expenses?.color!! else "#E57373"
         date = expenseDetailViewModel.convertMillisToFormattedDate(expenses?.date)
@@ -115,8 +116,8 @@ fun ExpenseDetail(
                 modifier = Modifier.fillMaxWidth(),
             )
             OutlinedTextField(
-                value = expenseValue,
-                onValueChange = { expenseValue = it },
+                value = "$expenseValue",
+                onValueChange = { expenseValue = it.toDoubleOrNull() ?: 0.0 },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
                 label = { Text("Valor") },
                 colors = TextFieldDefaults.colors(
@@ -197,7 +198,7 @@ fun ExpenseDetail(
                 onClick = {
                     if (
                         expenseName.isEmpty() ||
-                        expenseValue.isEmpty() ||
+                        expenseValue.toString().isEmpty() ||
                         newCategoryName.isEmpty() ||
                         selectedColor.isEmpty() ||
                         date.isEmpty()

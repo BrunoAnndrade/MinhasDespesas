@@ -78,7 +78,7 @@ class ExpenseListViewModel @Inject constructor(
 
             val budgetFlow = budgetRepository.getBudgetFlow()
             val budgetDouble = budgetFlow.firstOrNull()?.toDouble()
-            val expenseByIdValue = expense.expenseValue.toDoubleOrNull() ?: 0.0
+            val expenseByIdValue = expense.expenseValue
             val newBudget = budgetDouble?.plus(expenseByIdValue)
             val newBudgetObj = BudgetEntity(budget = newBudget.toString())
 

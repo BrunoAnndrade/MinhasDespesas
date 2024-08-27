@@ -19,7 +19,7 @@ data class ExpenseEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val title: String,
-    val expenseValue: String,
+    val expenseValue: Double,
     val date:Long?,
     val category: String?,
     val color:String?

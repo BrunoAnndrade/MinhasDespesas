@@ -125,7 +125,7 @@ fun ExpenseListCard(
                         horizontalAlignment = Alignment.End,
                     ) {
                         Text(
-                            text = expenseListViewModel.formatToCurrency(expenseItem.expenseValue),
+                            text = expenseListViewModel.formatToCurrency(expenseItem.expenseValue.toString()),
                             style = TextStyle.Default.copy(
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Purple40,

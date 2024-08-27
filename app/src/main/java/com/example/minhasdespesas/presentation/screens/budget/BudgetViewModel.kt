@@ -35,6 +35,7 @@ class BudgetViewModel @Inject constructor(
         }
     }
 
+
     suspend fun saveMoney(myMoney: Double){
 
         val budgetFlow = budgetRepository.getBudgetFlow()
@@ -46,8 +47,8 @@ class BudgetViewModel @Inject constructor(
         budgetRepository.updateBudget(newBudgetObj)
     }
 
-    fun formatToCurrency(value: String): String {
-        val number = value.toDoubleOrNull() ?: 0.0
+    fun formatToCurrency(value: String?): String {
+        val number = value?.toDoubleOrNull() ?: 0.0
         val format = NumberFormat.getCurrencyInstance(Locale("pt", "BR"))
         return format.format(number)
     }
