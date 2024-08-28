@@ -27,7 +27,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ExpenseDetailViewModel @Inject constructor(
     private val expenseRepository: ExpenseRepository,
-    private val budgetRepository: BudgetRepository,
     private val categoryRepository: CategoryRepository
 ) : ViewModel() {
 
@@ -47,7 +46,6 @@ class ExpenseDetailViewModel @Inject constructor(
         )
                 .atStartOfDayIn(TimeZone.UTC)
                 .toEpochMilliseconds()
-
     }
 
     @OptIn(FormatStringsInDatetimeFormats::class)
@@ -79,16 +77,6 @@ class ExpenseDetailViewModel @Inject constructor(
             )
             categoryRepository.insertCategory(categories)
             expenseRepository.upsertExpense(expenses)
-
-            val budgetFlow = budgetRepository.getBudgetFlow()
-            val budgetString = budgetFlow.firstOrNull().toString()
-            val expenseValueDouble = expenses.expenseValue
-            val budgetDouble = budgetString.toDoubleOrNull() ?: 0.0
-            val newBudget = budgetDouble - expenseValueDouble
-            val newBudgetObj = BudgetEntity(budget = newBudget.toString())
-
-            budgetRepository.insertBudget(newBudgetObj)
-            budgetRepository.updateBudget(newBudgetObj)
         }
     }
 }
